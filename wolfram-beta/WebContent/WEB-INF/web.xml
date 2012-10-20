@@ -9,4 +9,14 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>WolframBeta</display-name>
+    <servlet-name>WolframBeta</servlet-name>
+    <servlet-class>se.portalen.wolframbeta.WolframBeta</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>WolframBeta</servlet-name>
+    <url-pattern>/WolframBeta</url-pattern>
+  </servlet-mapping>
 </web-app>
