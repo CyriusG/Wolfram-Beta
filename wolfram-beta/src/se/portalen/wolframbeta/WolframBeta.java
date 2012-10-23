@@ -17,7 +17,7 @@ public class WolframBeta extends HttpServlet {
      */
     public WolframBeta() {
         super();
-        // TODO Auto-generated constructor stub
+        // TODO Auto-generated constructor stub maybe
     }
 
 	/**
