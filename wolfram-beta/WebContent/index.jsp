@@ -12,9 +12,18 @@
 </head>
 <body>
 	<div id="wrapper">
-		<div id="header"> 
-			<div class="buttonStart">wolfram beta</div>
-			<div class="buttonEnd">about</div>
+		<div id="content"> 
+			<h1>Wolfram Beta</h1>
+			<br />
+			<br />
+			<form id="mathInput">
+				<input type="text" id="input" /> 
+				<input type="submit" />
+			</form>
+			<br />
+			<div id="result">
+				<p>Results goes here</p>
+			</div>
 		</div>
 	</div>
 </body>
