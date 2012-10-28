@@ -8,6 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<p><%= new.java.util.date() %></p>
+	<p><%= new java.util.Date() %></p>
 </body>
 </html>
