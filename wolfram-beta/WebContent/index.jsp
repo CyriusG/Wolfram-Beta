@@ -17,8 +17,8 @@
 			<br />
 			<br />
 			<form id="mathInput">
-				<input type="text" id="input" /> 
-				<input type="submit" />
+				<input type="text" id="input" />
+				<input type="submit" value="Calculate" />
 			</form>
 			<br />
 			<div id="result">
