@@ -10,21 +10,28 @@
 	<link href='http://fonts.googleapis.com/css?family=Orienta' rel='stylesheet' type='text/css'>
 	<title>Wolfram Beta</title>
 </head>
-<body>
-	<div id="wrapper">
-		<div id="content"> 
-			<h1>Wolfram Beta</h1>
-			<br />
-			<br />
-			<form id="mathInput">
-				<input type="text" id="input" />
-				<input type="submit" value="Calculate" />
-			</form>
-			<br />
-			<div id="result">
-				<p>Results goes here</p>
+	<body>
+		<div id="header">
+			<div id="header-inside">
+				<a href="#" class="header-text">About »</a>
+				<p class="header-seperator">|</p>
+				<a href="#" class="header-text">Sign in »</a>
 			</div>
 		</div>
-	</div>
-</body>
+		
+		<div id="wrapper">
+			<div id="input"> 
+				
+				<div id="inputContainer">
+				<img src="static/img/logo.jpg" />
+				<p>Enter something you want to <b>calculate</b>.</p>
+					<form id="mathForm">
+						<input class="mathInput" type="text" />
+						<input class="mathSubmit" type="submit" value="=" title="Compute" />
+						<div class="clear"></div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
