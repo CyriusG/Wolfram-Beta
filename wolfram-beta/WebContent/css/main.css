@@ -1,20 +1,133 @@
-body {
-	margin: 0px;
-	padding: 0px;
+* {
+	margin: 0;
+	padding: 0;
 }
 
+body {
+	background: #fff;
+	font-family: Verdana;
+	color: #FFF;
+}
+
+.clear { clear: both; }
+
 #wrapper {
-	margin: 0px;
-	padding: 0px;
+	width: 960px;
+	margin: 0px auto;
+	
+}
+
+#header {
+	color: #555152;
+	height: 30px;
+	width: 100%;
+	border-bottom: 1px solid #e0e0e0;
+	background: #f9f9f9;
+}
+
+#header a {
+	color: #555152;
+	text-decoration: none;
+}
+
+#header a:hover {
+	color: #747474;
+}
+
+#header-inside {
+	height: 20px;
 	width: 960px;
 	margin-left: auto;
 	margin-right: auto;
-	text-align: center;
+	text-align: right;
+	padding-top: 5px;
 }
 
-#content {
+.header-text {
+	font-size: 10pt;
+	font-weight: bold;
+	float: right;
+}
+
+.header-seperator {
+	font-size: 10pt;
+	font-weight: bold;
+	float: right;
+	margin: 0 5px;
+}
+
+/** Math input styling **/
+
+#input {
+	background-color: #FFF;
+	width: 500px;
+	margin: 15% auto 0;
 	padding: 10px;
-	width: 450px;
-	margin-left: auto;
-	margin-right: auto;
+	padding-bottom: 20px;
+	border-radius: 20px;
+	border: solid 2px #e0e0e0;
+	-webkit-box-shadow: 0 0px 10px rgba(50, 50, 50, 0.3);
+	-moz-box-shadow:    0 0px 10px rgba(50, 50, 50, 0.3);
+	box-shadow:         0 0px 10px rgba(50, 50, 50, 0.3);
+}
+
+#input p {
+	color: #555152;
+	font-family: Verdana;
+	font-size: 8pt;
+	margin: 10px 0 5px 5px;
+}
+
+#inputContainer {
+	width: 440px;
+	margin: 0 auto;
+	border-radius: 10px;
+	margin-top: 15px;
+}
+
+#mathForm {
+	width: auto;
+	border: 5px solid #ffbd2f;
+	border-radius: 15px;
+	-webkit-box-shadow: 2px 2px 5px rgba(50, 50, 50, 0.3);
+	-moz-box-shadow:    2px 2px 5px rgba(50, 50, 50, 0.3);
+	box-shadow:         2px 2px 5px rgba(50, 50, 50, 0.3);
+}
+
+.mathInput {
+	width: 389px;
+	height: 18px;
+	float: left;
+	margin: 0;
+	padding: 4px;
+	padding-left: 5px;
+	border-radius: 10px 0 0 10px;
+	border: solid 2px #99173C;
+	border-right: 0;
+}
+
+.mathSubmit {
+	float: left;
+	height: 30px;
+	width: 30px;
+	border-radius: 0 10px 10px 0;
+	border: solid 2px #99173C;
+	background: #FFF;
+	border-left: 0;
+	font-size: 14pt;
+}
+
+.mathSubmit:hover {
+	color: #747474;
+	cursor: pointer;
+}
+
+/** Footer **/
+
+#footer {
+	width: 100%;
+	height: 100px;
+	bottom: 0;
+	position: absolute;
+	background: #e0e0e0;
 }
