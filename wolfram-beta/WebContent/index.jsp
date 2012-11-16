@@ -19,7 +19,7 @@
 			</form>
 		</div>
 	</div>
-
+	
 <%-- Footer starts here --%>
 
 <%@ include file="static/templates/footer.jsp" %>
