@@ -18,8 +18,8 @@
 				<div class="clear"></div>
 			</form>
 		</div>
-	</div> 
-
+	</div>
+	
 <%-- Footer starts here --%>
 
 <%@ include file="static/templates/footer.jsp" %>
