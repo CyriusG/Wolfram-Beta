@@ -12,7 +12,7 @@
 			<div class="clear"></div>
 			<p>Enter something you want to <b>calculate</b>.</p>
 			<%--The input form. --%>
-			<form id="mathForm">
+			<form class="mathForm">
 				<input class="mathInput" type="text" />
 				<input class="mathSubmit" type="submit" value="=" title="Compute" />
 				<div class="clear"></div>

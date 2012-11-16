@@ -5,7 +5,7 @@
 			<h1>Wolfram</h1><h2>Beta</h2>
 		</div>
 		<div class="inputContainer">
-			<form id="mathForm">
+			<form class="mathForm" id="smallInputForm">
 				<input class="mathInput" type="text" />
 				<input class="mathSubmit" type="submit" value="=" title="Compute" />
 				<div class="clear"></div>
@@ -15,8 +15,18 @@
 	
 	<div class="block">
 		<div class="answer">
-			<p>Hello</p>
-		</div>		
+			<h3>Input:</h3>
+			<div class="output">
+				<p>6</p>
+			</div>
+		</div>	
+		
+		<div class="answer">
+			<h3>Output:</h3>
+			<div class="output">
+				<p>82</p>
+			</div>
+		</div>	
 	</div>
 	
 <%@ include file="static/templates/footer.jsp" %>
