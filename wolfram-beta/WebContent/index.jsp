@@ -6,6 +6,7 @@
 	<%--
 		Building up the div where the user inputs what to calculate.
 	 --%>
+	 <div id="background"></div>
 	<div id="input" class="block"> 
 		<div class="inputContainer">
 			<h1>Wolfram</h1><h2>Beta</h2>
