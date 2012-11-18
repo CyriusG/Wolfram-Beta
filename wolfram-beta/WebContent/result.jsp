@@ -27,11 +27,11 @@
 		<div class="answer">
 			<h3>Properties:</h3>
 			<ul>
-				<li>6 = 82</li>
-				<li>82 = 6</li>
-				<li>6 is a number.</li>
-				<li>82 is another number.</li>
-				<li>82 minus something is 6.</li>
+				<div class="answerItemContainer"><li>6 = 82</li></div>
+				<div class="answerItemContainer"><li>82 = 6</li></div>
+				<div class="answerItemContainer"><li>6 is a number.</li></div>
+				<div class="answerItemContainer"><li>82 is another number.</li></div>
+				<div class="answerItemContainer"><li>82 minus something is 6.</li></div>
 			</ul>
 		</div>
 		
