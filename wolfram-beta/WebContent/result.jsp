@@ -7,7 +7,7 @@
 		<div class="inputContainer">
 			<form class="mathForm" id="smallInputForm">
 				<input class="mathInput" type="text" />
-				<input class="mathSubmit" type="submit" value="=" title="Compute" />
+				<button class="mathSubmit" title="compute">=</button>
 				<div class="clear"></div>
 			</form>
 		</div>
