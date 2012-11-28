@@ -27,11 +27,11 @@
 		<div class="answer">
 			<h3>Properties:</h3>
 			<ul>
-				<div class="answerItemContainer"><li>6 = 82</li></div>
-				<div class="answerItemContainer"><li>82 = 6</li></div>
-				<div class="answerItemContainer"><li>6 is a number.</li></div>
-				<div class="answerItemContainer"><li>82 is another number.</li></div>
-				<div class="answerItemContainer"><li>82 minus something is 6.</li></div>
+				<% 
+					for (int i = 0; i < TalkSrv.constructTest().length; i++) {
+						out.print("<div class='answerItemContainer'><li>" + TalkSrv.constructTest()[i] + "</li></div>");
+					}
+				%>
 			</ul>
 		</div>
 		
