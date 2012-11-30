@@ -24,17 +24,8 @@ import javax.swing.JLabel;
 public class TestingLatex {
 	public static void main(String[] args) {
 		
-		String input = "(5 + 3) / (7x^5 + 56x^2)"; 
-		
-		System.out.println(constructMath(input));
-		
-		/*String math = "y = \\{5 + 3}{7x^5} + 56x^2";
-		
-		System.out.println(math);
-		
-		math = math.replaceAll("\\\\", "\\\\frac");
-		
-		System.out.println(math);
+		String input = "3x⁶ / / 5"; 
+		String math = constructMath(input);
 		
 		TeXFormula fomule = new TeXFormula(math);
 	    TeXFormula formula = new TeXFormula(fomule);
@@ -54,7 +45,7 @@ public class TestingLatex {
 	        ImageIO.write(image, "png", file.getAbsoluteFile());
 	    } catch (IOException ex) {
 	        ex.getMessage();
-	    }*/
+	    }
 	}
 	
 	public static String constructMath(String input) {
@@ -115,10 +106,7 @@ public class TestingLatex {
 						constructedBlocks.set(j, constructedBlocks.get(j).replace(")", ""));
 						
 						mergedBlock = constructedBlocks.get(i);
-						for (int j2 = i + 1; j2 < j + 1; j2++) {
-							System.out.println(constructedBlocks.get(j2));
-							System.out.println(j2);
-							
+						for (int j2 = i + 1; j2 < j + 1; j2++) {						
 							mergedBlock = mergedBlock + constructedBlocks.get(j2);
 						}
 						constructedBlocks.set(i, mergedBlock); 
@@ -131,13 +119,19 @@ public class TestingLatex {
 		}
 		
 		for (int i = 0; i < constructedBlocks.size(); i++) {
-			
-			
-			
-			result = result + constructedBlocks.get(i);
+			if(constructedBlocks.get(i).equals("/") && i > 0) {
+				String firstBlock = constructedBlocks.get(i - 1);
+				String secondBlock = constructedBlocks.get(i + 1);
+				
+				constructedBlocks.set(i - 1, "\\frac {" + firstBlock + "}{" + secondBlock + "}");
+				constructedBlocks.remove(i);
+				constructedBlocks.remove(i);
+			}
 		}
 		
-		System.out.println(constructedBlocks);
+		for (int i = 0; i < constructedBlocks.size(); i++) {	
+			result = result + constructedBlocks.get(i);
+		}
 		
 		return result;
 	}
