@@ -7,7 +7,7 @@
 		<div class="inputContainer">
 			<form class="mathForm" id="smallInputForm">
 				<input class="mathInput" type="text" />
-				<input class="mathSubmit" type="submit" value="=" title="Compute" />
+				<button class="mathSubmit" title="compute">=</button>
 				<div class="clear"></div>
 			</form>
 		</div>
@@ -27,11 +27,11 @@
 		<div class="answer">
 			<h3>Properties:</h3>
 			<ul>
-				<li>6 = 82</li>
-				<li>82 = 6</li>
-				<li>6 is a number.</li>
-				<li>82 is another number.</li>
-				<li>82 minus something is 6.</li>
+				<% 
+					for (int i = 0; i < TalkSrv.constructTest().length; i++) {
+						out.print("<div class='answerItemContainer'><li>" + TalkSrv.constructTest()[i] + "</li></div>");
+					}
+				%>
 			</ul>
 		</div>
 		

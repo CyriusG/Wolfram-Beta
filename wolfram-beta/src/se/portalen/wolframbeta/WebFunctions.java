@@ -1,6 +1,6 @@
 package se.portalen.wolframbeta;
 
-public class Functions {
+public class WebFunctions {
 	static final String siteTitle = "WolframBeta";
 	
 	
