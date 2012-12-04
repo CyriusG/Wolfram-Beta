@@ -24,7 +24,7 @@ import javax.swing.JLabel;
 public class TestingLatex {
 	public static void main(String[] args) {
 		
-		String input = "3x⁶ / / 5"; 
+		String input = "5 pix + 6x³"; 
 		String math = constructMath(input);
 		
 		TeXFormula fomule = new TeXFormula(math);
@@ -123,7 +123,7 @@ public class TestingLatex {
 				String firstBlock = constructedBlocks.get(i - 1);
 				String secondBlock = constructedBlocks.get(i + 1);
 				
-				constructedBlocks.set(i - 1, "\\frac {" + firstBlock + "}{" + secondBlock + "}");
+				constructedBlocks.set(i - 1, "$\\frac {" + firstBlock + "}{" + secondBlock + "}$");
 				constructedBlocks.remove(i);
 				constructedBlocks.remove(i);
 			}
@@ -132,6 +132,8 @@ public class TestingLatex {
 		for (int i = 0; i < constructedBlocks.size(); i++) {	
 			result = result + constructedBlocks.get(i);
 		}
+		
+		result = result.replace("pi", "$\\pi$");
 		
 		return result;
 	}
