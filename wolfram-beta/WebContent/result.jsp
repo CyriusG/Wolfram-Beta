@@ -16,7 +16,7 @@
 	<div class="block">
 		<div class="answer">
 			<h3>Input:</h3>
-			<p class="output"><img src="static/img/AlphaBeta.png" /></p>
+			<p class="output"><img src="temp/equations/eq_833809.png" /></p>
 		</div>	
 		
 		<div class="answer">
