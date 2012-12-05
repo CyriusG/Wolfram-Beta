@@ -1,29 +1,16 @@
 package se.portalen.wolframbeta;
 
 import org.omg.CORBA.INTERNAL;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Insets;
+import org.scilab.forge.jlatexmath.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
-
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 
-import org.eclipse.jdt.internal.compiler.util.GenericXMLWriter;
-import org.scilab.forge.jlatexmath.TeXConstants;
-import org.scilab.forge.jlatexmath.TeXFormula;
-import org.scilab.forge.jlatexmath.TeXIcon;
-
 public class EquationGen {
-	static Random rand = new Random();
-	
-	public static void main(String[] args) {
-		generateEquation("\\frac{5$\\pi$x^5}{7 +5x - 4x^2}", "eq_833809");
-	}
-	
 	public EquationGen() {}
 	
 	/**
@@ -55,9 +42,12 @@ public class EquationGen {
 	    File file = new File("WebContent/temp/equations/" + name + ".png");
 	    // Write it to disk.
 	    try {
+	    	// Make first sure that the folders exists.
 	    	checkFolder("WebContent/temp/equations/");
-	    	checkFileExists(file);
-	        ImageIO.write(image, "png", file.getAbsoluteFile());
+	    	// Write to disk only if there's no file with the same name.
+	    	if(!checkFileExists(file)) {
+	    		ImageIO.write(image, "png", file.getAbsoluteFile());
+	    	}
 	    } catch (IOException ex) {
 	        ex.getMessage();
 	    }
@@ -70,14 +60,20 @@ public class EquationGen {
 	private static void checkFolder(String folder) {
 		File f = new File(folder).getAbsoluteFile();
 		
+		// If the folders doesn't exists create them.
 		if(!f.exists()) {
 			f.mkdirs();
 		}
 	}
 	
-	private static void checkFileExists(File file) {
-		if(file.exists()) {
-			file.delete();
-		}
+	/**
+	 * Returns true if the file exists.
+	 * @param file
+	 */
+	private static boolean checkFileExists(File file) {
+		if(file.exists())
+			return true;
+		else
+			return false;
 	}
 }
