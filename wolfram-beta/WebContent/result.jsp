@@ -6,7 +6,7 @@
 		</div>
 		<div class="inputContainer">
 			<form class="mathForm" id="smallInputForm">
-				<input class="mathInput" type="text" />
+				<input class="mathInput" type="text" value="(5pi*x^5) / (7 + 5x - 4x^2)" />
 				<button class="mathSubmit" title="compute">=</button>
 				<div class="clear"></div>
 			</form>
