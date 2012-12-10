@@ -33,6 +33,18 @@ public class TeXParser {
 		// Analyse the input and make it into separate blocks
 		blockInput();
 		
+		// Detect where brackets are located and parse it
+		detectBracktes();
+		
+		// Format the special signs into something the renderer can read.
+		formatSpecialSigns();
+		
+		for (int i = 0; i < constructedBlocks.size(); i++) {	
+			result = result + constructedBlocks.get(i);
+		}
+		
+		result = result.replace("pi", "$\\pi$");
+		
 		return result;
 	}
 	
@@ -121,6 +133,19 @@ public class TeXParser {
 						}
 					}
 				}
+			}
+		}
+	}
+	
+	public void formatSpecialSigns() {
+		for (int i = 0; i < constructedBlocks.size(); i++) {
+			if(constructedBlocks.get(i).equals("/") && i > 0) {
+				String firstBlock = constructedBlocks.get(i - 1);
+				String secondBlock = constructedBlocks.get(i + 1);
+				
+				constructedBlocks.set(i - 1, "$\\frac {" + firstBlock + "}{" + secondBlock + "}$");
+				constructedBlocks.remove(i);
+				constructedBlocks.remove(i);
 			}
 		}
 	}
