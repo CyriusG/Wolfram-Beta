@@ -2,9 +2,9 @@ package se.portalen.wolframbeta;
 
 import java.util.ArrayList;
 
-public class TeXParser {
+public class TeXMaker {
 	
-	public TeXParser() {}
+	public TeXMaker() {}
 	
 	/**
 	 * Create and initilize all the variables used by the class.

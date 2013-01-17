@@ -46,46 +46,6 @@ a {
 a:hover {
 	color: #4b081b;
 }
-/** Header settings **/
-
-#header {
-	color: #ffffff;
-	height: 30px;
-	width: 100%;
-	border-bottom: 2px solid #99173C;
-	background: #555152;
-}
-
-#header a {
-	color: #ffffff;
-	text-decoration: none;
-}
-
-#header a:hover {
-	color: #e9e9e9;
-}
-
-#header-inside {
-	height: 20px;
-	width: 960px;
-	margin-left: auto;
-	margin-right: auto;
-	text-align: right;
-	padding-top: 5px;
-}
-
-.header-text {
-	font-size: 10pt;
-	font-weight: bold;
-	float: right;
-}
-
-.header-seperator {
-	font-size: 10pt;
-	font-weight: bold;
-	float: right;
-	margin: 0 5px;
-}
 
 /** Math input styling **/
 
@@ -215,7 +175,7 @@ h3 {
 	right: 0;
 	margin-left: auto;
     margin-right: auto;
-    top: 85px;
+    top: 55px;
     background: #FFF;
     -moz-border-radius: 50px;
 	-webkit-border-radius: 50px;
@@ -259,11 +219,6 @@ h3 {
 #smallInputForm {
 	position: relative;
 	z-index: 20;
-}
-
-.bottomLinks {
-	margin-left: 10px;
-	margin-top: 5px;
 }
 
 .answerItemContainer {
