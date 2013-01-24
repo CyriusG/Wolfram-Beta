@@ -1,12 +1,10 @@
 package se.portalen.wolframbeta;
 
-import org.omg.CORBA.INTERNAL;
 import org.scilab.forge.jlatexmath.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 
@@ -16,7 +14,9 @@ public class EquationGen {
 	/**
 	 * Generate the equation image.
 	 */
-	public static void generateEquation(String input, String name) {
+	public void generateEquation(String input, String name) {
+		System.out.println("Hai");
+		
 		// Parse the text that the user inputs.
 		TeXFormula fomule = new TeXFormula(input);
 		// After that make the parsed text into a formula which can later be rendered.
@@ -30,7 +30,7 @@ public class EquationGen {
 	    icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
 	    // Make it into graphics which will act as the background..
 	    Graphics2D g2 = image.createGraphics();
-	    // Set the backgroundc olour to white.
+	    // Set the background colour to white.
 	    g2.setColor(Color.white);
 	    g2.fillRect(0, 0, icon.getIconWidth(), icon.getIconHeight());
 	    // Create a JLabel which will act as the foreground and make it black.
@@ -46,6 +46,7 @@ public class EquationGen {
 	    	checkFolder("WebContent/temp/equations/");
 	    	// Write to disk only if there's no file with the same name.
 	    	if(!checkFileExists(file)) {
+	    		System.out.println("Hai");
 	    		ImageIO.write(image, "png", file.getAbsoluteFile());
 	    	}
 	    } catch (IOException ex) {
@@ -57,7 +58,7 @@ public class EquationGen {
 	 * Makes sure the folder where the file is being created exists.
 	 * @param folder
 	 */
-	private static void checkFolder(String folder) {
+	private void checkFolder(String folder) {
 		File f = new File(folder).getAbsoluteFile();
 		
 		// If the folders doesn't exists create them.

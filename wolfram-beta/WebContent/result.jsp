@@ -6,10 +6,10 @@
 	String equation = request.getParameter("mathInput");
 	
 	String name = WebFunctions.generateEqName(equation);
-
-	if(WebFunctions.checkIfEqExists(name) == 0) {
+	
+	//if(WebFunctions.checkIfEqExists(name) == 0) {
 		WebFunctions.generateEqImage(equation, name);
-	}
+	//}
 %>	
 
 	<div id="smallInputContainer">
@@ -28,7 +28,7 @@
 	<div class="block">
 		<div class="answer">
 			<h3>Input:</h3>
-			<p class="output"><img src="temp/equations/<% out.print(name); %>.png" /></p>
+			<p class="output"><img src="temp/equations/eq_534351.png" /></p>
 		</div>	
 		
 		<div class="answer">

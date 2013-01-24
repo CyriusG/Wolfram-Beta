@@ -2,12 +2,15 @@ package se.portalen.wolframbeta;
 
 import java.io.File;
 
-import org.apache.catalina.connector.Request;
-import org.omg.CORBA.INTERNAL;
-
 public class WebFunctions {
 	static final String siteTitle = "WolframBeta";
 	
+	public static void main(String[] args) {
+		TeXMaker texMaker = new TeXMaker();
+		EquationGen eqGen = new EquationGen();
+		
+		eqGen.generateEquation(texMaker.parseTex("5 + 3"), "eq_534351");
+	}
 	
 	public static String getTitle() {
 		return siteTitle;
@@ -16,7 +19,7 @@ public class WebFunctions {
 	public static String generateEqName(String equation) {
 		if(equation != null) {
 			String name = "eq_";
-			equation.replace(" ", "");
+			equation = equation.replace(" ", "");
 		
 			for (int i = 0; i < equation.length(); i++) {
 				name = name + ((int) equation.charAt(i));
@@ -51,6 +54,7 @@ public class WebFunctions {
 	}
 	
 	public static void generateEqImage(String equation, String name) {
+		
 		TeXMaker texMaker = new TeXMaker();
 		EquationGen eqGen = new EquationGen();
 		
