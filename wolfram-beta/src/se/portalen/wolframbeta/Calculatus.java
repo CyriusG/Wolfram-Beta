@@ -4,7 +4,11 @@ import java.util.ArrayList;
 
 public class Calculatus {
 	
-	public String mathing(String input){
+	public static void main(String[]args){
+		System.out.println(structuring("25+45*97-13"));
+	}
+	
+	public static String structuring(String input){
 		
 		ArrayList<String> mathConstruction = new ArrayList<String>();
 		ArrayList<String> constructedBlocks = new ArrayList<String>();
@@ -87,9 +91,14 @@ public class Calculatus {
 		}
 		
 		for (int i = 0; i < constructedBlocks.size(); i++) {	
-			result = result + constructedBlocks.get(i);
+			result = result + "\n" + constructedBlocks.get(i);
 		}
 			
 		return result;
 	}	
+	
+	public String mathing(String input) {
+		
+		return "";
+	}
 }
