@@ -13,23 +13,39 @@ public class WebFunctions {
 	}
 	
 	public static String generateEqName(String equation) {
-		String name = "eq_";
-		name.replace(" ", "");
+		if(equation != null) {
+			String name = "eq_";
+			equation.replace(" ", "");
 		
-		for (int i = 0; i < equation.length(); i++) {
-			name = name + ((int) equation.charAt(i));
-		}
+			for (int i = 0; i < equation.length(); i++) {
+				name = name + ((int) equation.charAt(i));
+			}
 		
-		return name;
-	}
-	
-	public static boolean checkIfEqExists(String name) {
-		File file = new File("temp/equations/" + name + ".png");
-		
-		if(file.exists()) {
-			return true;
+			return name;
 		}
 		else
-			return false;
+			return "error no equation.";
+	}
+	
+	/**
+	 * Returns 1, 0 or 3.
+	 * If it returns 1 it means that the file does exist.
+	 * If it returns 0 it means that the file doesn't exist.
+	 * If it returns 3 it means that there was a error.
+	 * @param name
+	 * @return
+	 */
+	public static int checkIfEqExists(String name) {
+		if(!name.contains("error")) {
+			File file = new File("temp/equations/" + name + ".png");
+			
+			if(file.exists()) {
+				return 1;
+			}
+			else
+				return 0;
+		}
+		else
+			return 3;
 	}
 }

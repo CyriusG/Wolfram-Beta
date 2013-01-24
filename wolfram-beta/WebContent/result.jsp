@@ -1,7 +1,16 @@
+<%@page import="se.portalen.wolframbeta.TeXMaker"%>
+<%@page import="se.portalen.wolframbeta.EquationGen"%>
 <%@ include file="static/templates/header.jsp" %>	
 
 <% 
-	String input = request.getParameter("mathInput");
+	String equation = request.getParameter("mathInput");
+
+	TeXMaker texMaker = new TeXMaker();
+	EquationGen eqGen = new EquationGen();
+
+	if(WebFunctions.checkIfEqExists(WebFunctions.generateEqName(equation)) == 0) {
+		eqGen.generateEquation(texMaker.parseTex("5pix^5) / (7 + 5x - 4x^2)"), WebFunctions.generateEqName(equation));
+	}
 %>	
 		
 
@@ -12,7 +21,7 @@
 		</div>
 		<div class="inputContainer">
 			<form class="mathForm" id="smallInputForm">
-				<input class="mathInput" type="text" value="<% out.print(input); %>" />
+				<input class="mathInput" type="text" value="<% out.print(equation); %>" />
 				<button class="mathSubmit" title="compute">=</button>
 				<div class="clear"></div>
 			</form>
@@ -20,15 +29,9 @@
 	</div>
 	
 	<div class="block">
-		<% 
-			out.print(WebFunctions.generateEqName(input));
-			if(WebFunctions.checkIfEqExists(WebFunctions.generateEqName(input))) {
-				out.print("Hai");
-			}
-		%>
 		<div class="answer">
 			<h3>Input:</h3>
-			<p class="output"><img src="temp/equations/eq_833809.png" /></p>
+			<p class="output"><img src="temp/equations/<% out.print(equation); %>.png" /></p>
 		</div>	
 		
 		<div class="answer">
