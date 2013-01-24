@@ -3,9 +3,11 @@ package se.portalen.wolframbeta;
 import java.util.ArrayList;
 
 public class Calculatus {
+	static int test101 = 0;
+
 	
 	public static void main(String[]args){
-		System.out.println(prioritizer("53+(95+(65*5))"));
+		System.out.println(prioritizer("53+(95+(65*53/36))"));
 	}
 	
 	public static String mathing(String input){
@@ -66,6 +68,9 @@ public class Calculatus {
 	}
 	
 	public static String prioritizer(String input) {
+		
+		input = input.replace(" ", "");
+		
 		for (int i = 0; i < input.length(); i++) {	
 			if (String.valueOf(input.charAt(i)).equals(")")){
 				for (int j = i; j > 0; j--) {
@@ -84,13 +89,37 @@ public class Calculatus {
 	
 	public static String splitter(String parameter){
 		
-		String[] tehArray = new String[parameter.length()];
+		String[] tehArray = new String[0];
+		
+		boolean multiply;
+		boolean divide;
+		boolean add;
+		boolean subtract;
+		
+		if(parameter.contains("*")){
+			
+		}
 		
 		for (int i = 0; i < parameter.length(); i++) {	
-			if(String.valueOf(parameter.charAt(i)).equals("/")||String.valueOf(parameter.charAt(i)).equals("*")){
-				tehArray = parameter.split("*");
+			if(String.valueOf(parameter.charAt(i)).equals("*")){
+				tehArray = parameter.split("\\*");
+				for (String a : tehArray) {
+					System.out.println(a);
+					test101 = 1;
+				}
+				break;
+			}
+			
+		}
+		for (int i = 0; i < parameter.length(); i++) {	
+			if(String.valueOf(parameter.charAt(i)).equals("/")){
+				tehArray = parameter.split("/");
+				for (String a : tehArray) {
+					System.out.println(a);
+					test101 = 2;
+				}
 			}
 		}
-		return parameter;
+		return "";
 	}
 }
