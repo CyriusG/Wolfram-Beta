@@ -3,6 +3,7 @@ package se.portalen.wolframbeta;
 import java.io.File;
 
 import org.apache.catalina.connector.Request;
+import org.omg.CORBA.INTERNAL;
 
 public class WebFunctions {
 	static final String siteTitle = "WolframBeta";
@@ -47,5 +48,12 @@ public class WebFunctions {
 		}
 		else
 			return 3;
+	}
+	
+	public static void generateEqImage(String equation, String name) {
+		TeXMaker texMaker = new TeXMaker();
+		EquationGen eqGen = new EquationGen();
+		
+		eqGen.generateEquation(texMaker.parseTex(equation), name);
 	}
 }

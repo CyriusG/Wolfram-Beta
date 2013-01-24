@@ -4,17 +4,14 @@
 
 <% 
 	String equation = request.getParameter("mathInput");
+	
+	String name = WebFunctions.generateEqName(equation);
 
-	TeXMaker texMaker = new TeXMaker();
-	EquationGen eqGen = new EquationGen();
-
-	if(WebFunctions.checkIfEqExists(WebFunctions.generateEqName(equation)) == 0) {
-		eqGen.generateEquation(texMaker.parseTex("5pix^5) / (7 + 5x - 4x^2)"), WebFunctions.generateEqName(equation));
+	if(WebFunctions.checkIfEqExists(name) == 0) {
+		WebFunctions.generateEqImage(equation, name);
 	}
 %>	
-		
 
-	
 	<div id="smallInputContainer">
 		<div id="smallLogo">
 			<h1>Wolfram</h1><h2>Beta</h2>
@@ -31,7 +28,7 @@
 	<div class="block">
 		<div class="answer">
 			<h3>Input:</h3>
-			<p class="output"><img src="temp/equations/<% out.print(equation); %>.png" /></p>
+			<p class="output"><img src="temp/equations/<% out.print(name); %>.png" /></p>
 		</div>	
 		
 		<div class="answer">

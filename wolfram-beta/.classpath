@@ -10,6 +10,7 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="ExternalLibraries/jlatexmath-1.0.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="ExternalLibraries/jlatexmath-1.0.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/jlatexmath-1.0.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
