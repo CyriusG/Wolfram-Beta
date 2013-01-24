@@ -9,7 +9,7 @@ public class WebFunctions {
 		TeXMaker texMaker = new TeXMaker();
 		EquationGen eqGen = new EquationGen();
 		
-		eqGen.generateEquation(texMaker.parseTex("5 + 3"), "eq_534351");
+		eqGen.generateEquation(texMaker.parseTex("(56 - 3) / 5"), "eq_534351");
 	}
 	
 	public static String getTitle() {

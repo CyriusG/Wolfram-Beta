@@ -16,7 +16,6 @@ public class TeXMaker {
 	private String mergedBlock = "";
 	
 	public String parseTex(String input) {
-		System.out.println("Hai");
 		
 		mathConstruction.clear();
 		constructedBlocks.clear();
