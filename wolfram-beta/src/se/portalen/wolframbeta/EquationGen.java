@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 
 public class EquationGen extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Generate the equation image.
 	 */
@@ -52,6 +52,35 @@ public class EquationGen extends HttpServlet {
 	    } catch (IOException ex) {
 	        System.out.println(ex.getMessage());
 	    }
+	    
+	    cleanFolder(file);
+	}
+	
+	private void cleanFolder(File keepFile) {
+		File directory = new File("C:/Users/Elev 3C/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/wolfram-beta/temp/equations/");
+		
+		if(folderSize(directory) > 524288000) {
+			for(File file : directory.listFiles()) {
+				System.out.println("Keep this: " + keepFile);
+				System.out.println("Regular file " + file);
+				if(file.isFile() && file != keepFile)  {
+					file.delete();
+				}
+			}
+		}
+	}
+	
+	private long folderSize(File directory) {
+		long length = 0;
+		
+		for(File file : directory.listFiles()) {
+			if(file.isFile()) 
+				length += file.length();
+			else
+				length += folderSize(file);
+		}
+		
+		return length;
 	}
 	
 	/**
