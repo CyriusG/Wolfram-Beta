@@ -4,20 +4,26 @@
 
 <% 
 	String equation = request.getParameter("mathInput");
-	
+
+	String relativeWebPath = "temp/equations/";
+	String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath);
+	String path =  absoluteDiskPath + "/"; 
 	String name = WebFunctions.generateEqName(equation);
 	
-	//if(WebFunctions.checkIfEqExists(name) == 0) {
-		WebFunctions.generateEqImage(equation, name);
-	//}
+	
+	
+	
+	if(WebFunctions.checkIfEqExists(name) == 0) {
+		WebFunctions.generateEqImage(equation, name, path);
+	}
 %>	
-
+	
 	<div id="smallInputContainer">
 		<div id="smallLogo">
 			<h1>Wolfram</h1><h2>Beta</h2>
 		</div>
 		<div class="inputContainer">
-			<form class="mathForm" id="smallInputForm">
+			<form class="mathForm" id="smallInputForm" action="result.jsp" method="get">
 				<input class="mathInput" type="text" value="<% out.print(equation); %>" />
 				<button class="mathSubmit" title="compute">=</button>
 				<div class="clear"></div>

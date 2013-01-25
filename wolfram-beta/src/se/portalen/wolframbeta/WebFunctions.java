@@ -5,13 +5,6 @@ import java.io.File;
 public class WebFunctions {
 	static final String siteTitle = "WolframBeta";
 	
-	public static void main(String[] args) {
-		TeXMaker texMaker = new TeXMaker();
-		EquationGen eqGen = new EquationGen();
-		
-		eqGen.generateEquation(texMaker.parseTex("(56 - 3) / 5"), "eq_534351");
-	}
-	
 	public static String getTitle() {
 		return siteTitle;
 	}
@@ -53,11 +46,11 @@ public class WebFunctions {
 			return 3;
 	}
 	
-	public static void generateEqImage(String equation, String name) {
+	public static void generateEqImage(String equation, String name, String path) {
 		
 		TeXMaker texMaker = new TeXMaker();
 		EquationGen eqGen = new EquationGen();
 		
-		eqGen.generateEquation(texMaker.parseTex(equation), name);
+		eqGen.generateEquation(texMaker.parseTex(equation), name, path);
 	}
 }
