@@ -53,6 +53,7 @@ public class TeXMaker {
 			
 			result = result.replace("pi", "$\\pi$");
 			result = result.replace("*", "$\\times$");
+			result = result.replaceAll("^e$", "$\\mathrm{e}$");
 			
 			return result;
 		}
@@ -151,10 +152,10 @@ public class TeXMaker {
 						}
 						
 						// Remove the not used blocks.
-//						constructedBlocks.set(i, mergedBlock); 
-//						for (int j2 = i + 1; j2 < j + 1; j2++) {
-//							constructedBlocks.remove(i + 1);
-//						}
+						constructedBlocks.set(i, mergedBlock); 
+						for (int j2 = i + 1; j2 < j + 1; j2++) {
+							constructedBlocks.remove(i + 1);
+						}
 					}
 				}
 			}
