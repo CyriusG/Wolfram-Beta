@@ -10,9 +10,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<link href="css/main.css" rel="stylesheet" type="text/css" >
 	<link href='http://fonts.googleapis.com/css?family=Orienta' rel='stylesheet' type='text/css'>
-	<title><%
-		out.print(WebFunctions.getTitle());
-	%></title>
+	<title><% out.print(WebFunctions.getTitle()); %></title>
 </head>
 	<body>
 		

@@ -2,6 +2,8 @@ package se.portalen.wolframbeta;
 
 import java.util.ArrayList;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
+
 public class TeXMaker {
 	
 	public TeXMaker() {}
@@ -59,17 +61,27 @@ public class TeXMaker {
 		int startIndex = 0;
 		int endIndex = 0;
 		
+		for (int j = 0; j < mathConstruction.size(); j++) {
+			System.out.println("Math: " + mathConstruction.get(j));
+		}
+		
 		// The main loop that goes through every character in the list.
 		for (int i = 0; i < mathConstruction.size(); i++) {
 			// If it finds a /, *, + or - it have found its first block and makes everything to the left into its own block
 			// and everything to the right that before the next /, *, + or - into another block. It also makes the
 			// sign found it own block.
-			if(mathConstruction.get(i).equals("/") || mathConstruction.get(i).equals("*") || mathConstruction.get(i).equals("+") || mathConstruction.get(i).equals("-")) {
+			if(mathConstruction.get(i).equals("/") || mathConstruction.get(i).equals("*") || mathConstruction.get(i).equals("+") 
+					|| mathConstruction.get(i).equals("-") || mathConstruction.get(i).equals("%")) 
+			{
 				// It starts counting back to find the last sign or if it's the beginning.
 				for (int j = i; j > 0; j--) {
 					// When it reaches the start or the last sign it have found a new block and takes note of the
 					// index.
-					if(mathConstruction.get(j).equals("/") || mathConstruction.get(j).equals("*") || mathConstruction.get(j).equals("+") || mathConstruction.get(j).equals("-")) {
+					
+					System.out.println(mathConstruction.get(j));
+					if(mathConstruction.get(j).equals("/") || mathConstruction.get(j).equals("*") || mathConstruction.get(j).equals("+") 
+							|| mathConstruction.get(j).equals("-") || mathConstruction.get(i).equals("%"))
+					{
 						startIndex = lastBlock + 1;
 						endIndex = j;
 						lastBlock = i;
@@ -82,14 +94,14 @@ public class TeXMaker {
 				// into a string and then add the string into a list that contains the blocks.
 				for (int j = startIndex; j < endIndex; j++) {
 					constructBlock = constructBlock + mathConstruction.get(j);
+					System.out.println(constructBlock);
 					if(j == endIndex - 1) {
 						constructedBlocks.add(constructBlock);
 						constructedBlocks.add(mathConstruction.get(endIndex));
 					}
 				}
-				
-				
 			}
+			
 			// Pretty much same as above. It's just changed for the last block.
 			if(i == mathConstruction.size() - 1) {
 				constructBlock = "";
@@ -103,6 +115,7 @@ public class TeXMaker {
 				constructedBlocks.add(constructBlock);
 			}
 		}
+		System.out.println(constructedBlocks);
 	}
 	
 	/**
@@ -128,21 +141,26 @@ public class TeXMaker {
 							mergedBlock = mergedBlock + constructedBlocks.get(j2);
 						}
 						// Remove the not used blocks.
-						constructedBlocks.set(i, mergedBlock); 
-						for (int j2 = i + 1; j2 < j + 1; j2++) {
-							constructedBlocks.remove(i + 1);
-						}
+//						constructedBlocks.set(i, mergedBlock); 
+//						for (int j2 = i + 1; j2 < j + 1; j2++) {
+//							constructedBlocks.remove(i + 1);
+//						}
+						System.out.println("Hai " + constructedBlocks);
 					}
 				}
 			}
 		}
 	}
 	
+	
+	
 	public void formatSpecialSigns() {
 		for (int i = 0; i < constructedBlocks.size(); i++) {
 			if(constructedBlocks.get(i).equals("/") && i > 0) {
 				String firstBlock = constructedBlocks.get(i - 1);
+				System.out.println(firstBlock);
 				String secondBlock = constructedBlocks.get(i + 1);
+				System.out.println(secondBlock);
 				
 				constructedBlocks.set(i - 1, "$\\frac {" + firstBlock + "}{" + secondBlock + "}$");
 				constructedBlocks.remove(i);
