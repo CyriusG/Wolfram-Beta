@@ -7,7 +7,7 @@ public class Calculatus {
 
 	
 	public static void main(String[]args){
-		System.out.println(prioritizer("53+(95+(65*53/36))"));
+		System.out.println(trimmer("(((5*((5*(5+3))/7))))"));
 	}
 	
 	public static String mathing(String input){
@@ -71,55 +71,83 @@ public class Calculatus {
 		
 		input = input.replace(" ", "");
 		
+		for (int i = 0; i < input.length(); i++) {
+			System.out.println(i);
+			if (String.valueOf(input.charAt(i)).equals(")")){
+				System.out.println(input.charAt(i));
+				for (int j = i; j >= 0; j--) {
+					System.out.println(j);
+					if (String.valueOf(input.charAt(j)).equals("(")){
+						System.out.println(j);
+						System.out.println(input.charAt(j));
+						String parameter = input.substring(j, i+1);
+						String parameterBuffer = parameter.substring(1, i-1);
+						System.out.println(input);
+						input = input.replace(parameter, (splitter(parameterBuffer) + ""));
+						System.out.println(input);
+					}
+				}
+			} 
+		}
+		input = splitter(input) + "";
+		
+		return input;
+	}
+	
+	public static String trimmer(String input){
+		
+		String trim = ""; 
+		
 		for (int i = 0; i < input.length(); i++) {	
 			if (String.valueOf(input.charAt(i)).equals(")")){
-				for (int j = i; j > 0; j--) {
+				for (int j = i; j >= 0; j--) {
 					if (String.valueOf(input.charAt(j)).equals("(")){
-						String parameter = input.substring(j, i+1);
-						String parameterBuffer = parameter.substring(1, parameter.length()-1);
-						input = input.replace(parameter, splitter(parameterBuffer));
+						trim = input.substring(j+1, i);
+						System.out.println(input);
+						input = input.replace("("+trim+")", splitter(trim)+"");
+						i = 0;
 						break;
 					}
 				}
-			}
+			} 
 		}
-		
-		return "";
+	
+		return input;
 	}
 	
-	public static String splitter(String parameter){
+	public static double splitter(String parameter){
+		
+		double returnValue = 0;
 		
 		String[] tehArray = new String[0];
 		
-		boolean multiply;
-		boolean divide;
-		boolean add;
-		boolean subtract;
-		
-		if(parameter.contains("*")){
-			
-		}
 		
 		for (int i = 0; i < parameter.length(); i++) {	
 			if(String.valueOf(parameter.charAt(i)).equals("*")){
 				tehArray = parameter.split("\\*");
-				for (String a : tehArray) {
-					System.out.println(a);
-					test101 = 1;
-				}
-				break;
+				returnValue = Double.parseDouble(tehArray[0]) * Double.parseDouble(tehArray[1]);
+				
 			}
 			
-		}
-		for (int i = 0; i < parameter.length(); i++) {	
 			if(String.valueOf(parameter.charAt(i)).equals("/")){
-				tehArray = parameter.split("/");
-				for (String a : tehArray) {
-					System.out.println(a);
-					test101 = 2;
-				}
+				tehArray = parameter.split("\\/");
+				returnValue = Double.parseDouble(tehArray[0]) / Double.parseDouble(tehArray[1]);
+				
+			} 
+			
+			if(String.valueOf(parameter.charAt(i)).equals("+")){
+				tehArray = parameter.split("\\+");
+				returnValue = Double.parseDouble(tehArray[0]) + Double.parseDouble(tehArray[1]);;
+			
+			}
+			
+			if(String.valueOf(parameter.charAt(i)).equals("-")){
+				tehArray = parameter.split("\\-");
+				returnValue = Double.parseDouble(tehArray[0]) + Double.parseDouble(tehArray[1]);
+				
 			}
 		}
-		return "";
+		
+		return returnValue;
 	}
 }
