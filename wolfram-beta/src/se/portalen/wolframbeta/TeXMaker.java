@@ -19,36 +19,45 @@ public class TeXMaker {
 	
 	public String parseTex(String input) {
 		
-		mathConstruction.clear();
-		constructedBlocks.clear();
-		String result = "";
+		if(input != null) {
 		
-		// Remove all the spaces from the input.
-		input = input.replace(" ", "");
-		
-		/**
-		 * Add every single character into its own index in a list.
-		 */
-		for (int i = 0; i < input.length(); i++) {
-			mathConstruction.add(String.valueOf(input.charAt(i)));
+			mathConstruction.clear();
+			constructedBlocks.clear();
+			String result = "";
+			
+			// Remove all the spaces from the input.
+			input = input.replace(" ", "");
+			
+			/**
+			 * Add every single character into its own index in a list.
+			 */
+			for (int i = 0; i < input.length(); i++) {
+				mathConstruction.add(String.valueOf(input.charAt(i)));
+			}
+			
+			// Analyse the input and make it into separate blocks
+			blockInput();
+			System.out.println("1:" + constructedBlocks);
+			
+			// Detect where brackets are located and parse it
+			detectBracktes();
+			System.out.println("2: " + constructedBlocks);
+			
+			// Format the special signs into something the renderer can read.
+			formatSpecialSigns();
+			System.out.println("3: " + constructedBlocks);
+	
+			for (int i = 0; i < constructedBlocks.size(); i++) {	
+				result = result + constructedBlocks.get(i);
+			}
+			
+			result = result.replace("pi", "$\\pi$");
+			result = result.replace("*", "$\\times$");
+			
+			return result;
 		}
-		
-		// Analyse the input and make it into separate blocks
-		blockInput();
-		
-		// Detect where brackets are located and parse it
-		detectBracktes();
-		
-		// Format the special signs into something the renderer can read.
-		formatSpecialSigns();
-		
-		for (int i = 0; i < constructedBlocks.size(); i++) {	
-			result = result + constructedBlocks.get(i);
-		}
-		
-		result = result.replace("pi", "$\\pi$");
-		
-		return result;
+		else
+			return "";
 	}
 	
 	/**
@@ -61,8 +70,11 @@ public class TeXMaker {
 		int startIndex = 0;
 		int endIndex = 0;
 		
-		for (int j = 0; j < mathConstruction.size(); j++) {
-			System.out.println("Math: " + mathConstruction.get(j));
+		for (int i = 0; i < mathConstruction.size(); i++) {
+			if(mathConstruction.get(i).equals("(") && i != 0) {
+				mathConstruction.add(i, "*");
+				break;
+			}
 		}
 		
 		// The main loop that goes through every character in the list.
@@ -77,8 +89,6 @@ public class TeXMaker {
 				for (int j = i; j > 0; j--) {
 					// When it reaches the start or the last sign it have found a new block and takes note of the
 					// index.
-					
-					System.out.println(mathConstruction.get(j));
 					if(mathConstruction.get(j).equals("/") || mathConstruction.get(j).equals("*") || mathConstruction.get(j).equals("+") 
 							|| mathConstruction.get(j).equals("-") || mathConstruction.get(i).equals("%"))
 					{
@@ -93,8 +103,8 @@ public class TeXMaker {
 				// Loops through the list where it found a block and adds all the characters
 				// into a string and then add the string into a list that contains the blocks.
 				for (int j = startIndex; j < endIndex; j++) {
+					
 					constructBlock = constructBlock + mathConstruction.get(j);
-					System.out.println(constructBlock);
 					if(j == endIndex - 1) {
 						constructedBlocks.add(constructBlock);
 						constructedBlocks.add(mathConstruction.get(endIndex));
@@ -115,7 +125,6 @@ public class TeXMaker {
 				constructedBlocks.add(constructBlock);
 			}
 		}
-		System.out.println(constructedBlocks);
 	}
 	
 	/**
@@ -140,27 +149,23 @@ public class TeXMaker {
 						for (int j2 = i + 1; j2 < j + 1; j2++) {						
 							mergedBlock = mergedBlock + constructedBlocks.get(j2);
 						}
+						
 						// Remove the not used blocks.
 //						constructedBlocks.set(i, mergedBlock); 
 //						for (int j2 = i + 1; j2 < j + 1; j2++) {
 //							constructedBlocks.remove(i + 1);
 //						}
-						System.out.println("Hai " + constructedBlocks);
 					}
 				}
 			}
 		}
 	}
 	
-	
-	
 	public void formatSpecialSigns() {
 		for (int i = 0; i < constructedBlocks.size(); i++) {
 			if(constructedBlocks.get(i).equals("/") && i > 0) {
 				String firstBlock = constructedBlocks.get(i - 1);
-				System.out.println(firstBlock);
 				String secondBlock = constructedBlocks.get(i + 1);
-				System.out.println(secondBlock);
 				
 				constructedBlocks.set(i - 1, "$\\frac {" + firstBlock + "}{" + secondBlock + "}$");
 				constructedBlocks.remove(i);
