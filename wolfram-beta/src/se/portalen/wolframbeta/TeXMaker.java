@@ -35,6 +35,7 @@ public class TeXMaker {
 			
 			// Analyse the input and make it into separate blocks
 			blockInput();
+			System.out.println(constructedBlocks);
 			
 			// Detect where brackets are located and parse it
 			//detectBracktes();
@@ -121,11 +122,15 @@ public class TeXMaker {
 					}					
 				}
 				constructedBlocks.add(newBlock);
+				
+				if(i == mathConstruction.size() && mathConstruction.get(mathConstruction.size() - 1).equals(")")) {
+					break;
+				}
 			}
+			
 			
 			int startIndex;
 			int endIndex;
-			
 			if(containSigns(mathConstruction.get(i))) {
 				constructedBlocks.add(mathConstruction.get(i));
 				startIndex = i + 1;
@@ -152,7 +157,9 @@ public class TeXMaker {
 					constructedBlocks.add(newBlock);
 				}
 				
-				System.out.println(constructedBlocks);
+				if(mathConstruction.get(i).equals("(") && mathConstruction.get(mathConstruction.size() - 1).equals(")")) {
+					break;
+				}
 			}
 		}
 		
