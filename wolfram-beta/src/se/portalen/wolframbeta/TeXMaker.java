@@ -2,8 +2,6 @@ package se.portalen.wolframbeta;
 
 import java.util.ArrayList;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
-
 public class TeXMaker {
 	
 	public TeXMaker() {}
@@ -13,9 +11,7 @@ public class TeXMaker {
 	 */
 	private ArrayList<String> mathConstruction = new ArrayList<String>();
 	private ArrayList<String> constructedBlocks = new ArrayList<String>();
-	private String constructBlock = "";
-	private int lastBlock = -1;
-	private String mergedBlock = "";
+	String newBlock;
 	// Doesn't include / because it requires some special formating.
 	private String[] signs = {"+", "-", "*",  "%", "(", ")"};
 	
@@ -63,14 +59,17 @@ public class TeXMaker {
 	}
 	
 	private boolean containSigns(String input) {
-		for (int i = 0; i < signs.length; i++) {
-			if(input.equals(signs[i])) 
-				return true;
-			else
-				return false;
-		}
+		boolean result = false;
 		
-		return true;
+		for (int i = 0; i < signs.length; i++) {
+			if(input.equals(signs[i])) {
+				result = true;
+				break;
+			}
+			else
+				result = false;
+		}
+		return result;
 	}
 	
 	/**
@@ -99,7 +98,6 @@ public class TeXMaker {
 			}
 		}
 		
-		String newBlock;
 		int extraBrackets;
 		
 		for (int i = 0; i < mathConstruction.size(); i++) {
@@ -123,38 +121,40 @@ public class TeXMaker {
 					}					
 				}
 				constructedBlocks.add(newBlock);
-				constructedBlocks.add(mathConstruction.get(i));
-
 			}
 			
 			int startIndex;
 			int endIndex;
-			for (int j = i; j < mathConstruction.size(); j++) {
-				startIndex = 0;
-				endIndex = 0;
+			
+			if(containSigns(mathConstruction.get(i))) {
+				constructedBlocks.add(mathConstruction.get(i));
+				startIndex = i + 1;
+				endIndex = startIndex;
 				newBlock = "";
-				if(containSigns(mathConstruction.get(j))) {					
-					startIndex = i + 1;
-					System.out.println(mathConstruction.get(startIndex));
-					
-					for (int j2 = j; j2 < mathConstruction.size(); j2++) {
-						if(containSigns(mathConstruction.get(j2))) {
-							endIndex = j2;
-							j = j2;
-							break;
-						}
+				
+				for (int j = i + 1; j < mathConstruction.size(); j++) {
+					if(containSigns(mathConstruction.get(j))) {
+						endIndex = j;
+						i = j - 1;
+						break;
 					}
-					
-					for (int j2 = startIndex; j2 < endIndex; j2++) {
-						newBlock += mathConstruction.get(j2);
+					else if(j == (mathConstruction.size()) - 1) {
+						endIndex = j + 1;
+						i = j - 1;
 					}
-					constructedBlocks.add(newBlock);
-					constructedBlocks.add(mathConstruction.get(j));
 				}
+				
+				if(startIndex != endIndex) {
+					for (int j = startIndex; j < endIndex; j++) {
+						newBlock += mathConstruction.get(j);
+					}
+					
+					constructedBlocks.add(newBlock);
+				}
+				
+				System.out.println(constructedBlocks);
 			}
 		}
-		
-		System.out.println(constructedBlocks);
 		
 		
 //		// Resets the indexes.
