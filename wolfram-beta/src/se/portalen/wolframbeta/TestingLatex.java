@@ -6,6 +6,6 @@ public class TestingLatex {
 		
 		
 		
-		System.out.println(texPareser.parseTex("(2 * (2/3)) + 5x"));
+		texPareser.parseTex("(5*(2/3)) - 56 + 5x - 46");
 	}
 }

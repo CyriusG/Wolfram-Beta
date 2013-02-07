@@ -16,6 +16,8 @@ public class TeXMaker {
 	private String constructBlock = "";
 	private int lastBlock = -1;
 	private String mergedBlock = "";
+	// Doesn't include / because it requires some special formating.
+	private String[] signs = {"+", "-", "*",  "%", "(", ")"};
 	
 	public String parseTex(String input) {
 		
@@ -37,7 +39,6 @@ public class TeXMaker {
 			
 			// Analyse the input and make it into separate blocks
 			blockInput();
-			System.out.println("1:" + constructedBlocks);
 			
 			// Detect where brackets are located and parse it
 			//detectBracktes();
@@ -59,6 +60,17 @@ public class TeXMaker {
 		}
 		else
 			return "";
+	}
+	
+	private boolean containSigns(String input) {
+		for (int i = 0; i < signs.length; i++) {
+			if(input.equals(signs[i])) 
+				return true;
+			else
+				return false;
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -88,44 +100,61 @@ public class TeXMaker {
 		}
 		
 		String newBlock;
-		boolean startBlocking;
 		int extraBrackets;
-		
 		
 		for (int i = 0; i < mathConstruction.size(); i++) {
 			newBlock = "";
-			startBlocking = false;
 			extraBrackets = 0;
 			
 			if(mathConstruction.get(i).equals("(")) {
-			
+				
 				for (int j = i; j < mathConstruction.size(); j++) {
-					if(startBlocking) {
-						newBlock += mathConstruction.get(j);
-						
-						if(mathConstruction.get(j).equals("("))
-							extraBrackets++;
-						
-						if(mathConstruction.get(j).equals(")") && extraBrackets > 0) {
-							extraBrackets--;
-							newBlock += mathConstruction.get(j + 1);
-							if(extraBrackets == 0) {
-								i = j + 1;
-								break;
-							}
-						}					
+					newBlock += mathConstruction.get(j);
+					
+					if(mathConstruction.get(j).equals("("))
+						extraBrackets++;
+					
+					if(mathConstruction.get(j).equals(")") && extraBrackets > 0) {
+						extraBrackets--;
+						if(extraBrackets == 0) {
+							i = j + 1;
+							break;
+						}
+					}					
+				}
+				constructedBlocks.add(newBlock);
+				constructedBlocks.add(mathConstruction.get(i));
+
+			}
+			
+			int startIndex;
+			int endIndex;
+			for (int j = i; j < mathConstruction.size(); j++) {
+				startIndex = 0;
+				endIndex = 0;
+				newBlock = "";
+				if(containSigns(mathConstruction.get(j))) {					
+					startIndex = i + 1;
+					System.out.println(mathConstruction.get(startIndex));
+					
+					for (int j2 = j; j2 < mathConstruction.size(); j2++) {
+						if(containSigns(mathConstruction.get(j2))) {
+							endIndex = j2;
+							j = j2;
+							break;
+						}
 					}
 					
-					if(mathConstruction.get(i).equals("(")) {
-						newBlock += mathConstruction.get(i);
-						startBlocking = true;
+					for (int j2 = startIndex; j2 < endIndex; j2++) {
+						newBlock += mathConstruction.get(j2);
 					}
+					constructedBlocks.add(newBlock);
+					constructedBlocks.add(mathConstruction.get(j));
 				}
-				System.out.println(newBlock);
 			}
-			constructedBlocks.add(newBlock);
 		}
 		
+		System.out.println(constructedBlocks);
 		
 		
 //		// Resets the indexes.
