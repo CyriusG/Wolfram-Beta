@@ -2,6 +2,8 @@ package se.portalen.wolframbeta;
 
 import java.util.ArrayList;
 
+import sun.text.normalizer.CharTrie.FriendAgent;
+
 public class TeXMaker {
 	
 	public TeXMaker() {}
@@ -35,7 +37,7 @@ public class TeXMaker {
 			
 			// Analyse the input and make it into separate blocks
 			blockInput();
-			System.out.println(constructedBlocks);
+			//System.out.println(constructedBlocks);
 			
 			// Detect where brackets are located and parse it
 			//detectBracktes();
@@ -49,9 +51,9 @@ public class TeXMaker {
 				result = result + constructedBlocks.get(i);
 			}
 			
-			result = result.replace("^pi$", "$\\pi$");
+			result = result.replace("pi", "$\\pi$");
 			result = result.replace("*", "$\\times$");
-			result = result.replaceAll("^e$", "$\\mathrm{e}$");
+			result = result.replace("^e$", "$\\mathrm{e}$");
 			
 			return result;
 		}
@@ -78,8 +80,7 @@ public class TeXMaker {
 	 * breaks everything into smaller blocks for the computers to
 	 * render later.
 	 */
-	private void blockInput() {
-		
+	private void blockInput() {		
 		
 		for (int i = 0; i < mathConstruction.size(); i++) {
 			if(
@@ -132,37 +133,94 @@ public class TeXMaker {
 			int startIndex;
 			int endIndex;
 			if(containSigns(mathConstruction.get(i))) {
-				constructedBlocks.add(mathConstruction.get(i));
-				startIndex = i + 1;
-				endIndex = startIndex;
+				
+				endIndex = i - 1;
+				startIndex = endIndex;
 				newBlock = "";
 				
-				for (int j = i + 1; j < mathConstruction.size(); j++) {
-					if(containSigns(mathConstruction.get(j))) {
-						endIndex = j;
-						i = j - 1;
+				for (int j = endIndex; j >= 0; j--) {
+					if(containSigns(mathConstruction.get(j)) || j == 0) {
+						
+						if(j != 0) {
+							startIndex = j + 1;
+						}
+						else {
+							startIndex = j;
+						}
+						for (int j2 = startIndex; j2 <= endIndex; j2++) {
+							newBlock += mathConstruction.get(j2);
+						}
+						constructedBlocks.add(newBlock);
+						constructedBlocks.add(mathConstruction.get(i));
 						break;
 					}
-					else if(j == (mathConstruction.size()) - 1) {
-						endIndex = j + 1;
-						i = j - 1;
-					}
 				}
+			}
+			
+			if(i == mathConstruction.size() - 1) {
+				endIndex = i;
+				startIndex = endIndex;
+				newBlock = "";
 				
-				if(startIndex != endIndex) {
-					for (int j = startIndex; j < endIndex; j++) {
-						newBlock += mathConstruction.get(j);
-					}
+				for (int j = endIndex; j >= 0; j--) {
 					
-					constructedBlocks.add(newBlock);
-				}
-				
-				if(mathConstruction.get(i).equals("(") && mathConstruction.get(mathConstruction.size() - 1).equals(")")) {
-					break;
+					if(containSigns(mathConstruction.get(j)) || j == 0) {
+						
+						for (int j2 = 0; j2 < mathConstruction.size(); j2++) {
+							if(j2 == mathConstruction.size() - 1 && !containSigns(mathConstruction.get(j2))) {
+								startIndex = j;
+							}
+							else {
+								startIndex = j + 1;
+							}
+						}
+						for (int j2 = startIndex; j2 <= endIndex; j2++) {
+							newBlock += mathConstruction.get(j2);
+						}
+						System.out.println(newBlock);
+						constructedBlocks.add(newBlock);
+						break;
+					}
 				}
 			}
 		}
 		
+		for (int j = 0; j < constructedBlocks.size(); j++) {
+			if(constructedBlocks.get(j).contains("/")) {
+				String currentBlock = constructedBlocks.get(j);
+				
+				int signIndex = currentBlock.indexOf("/");
+				String firstBlock = currentBlock.substring(0, signIndex);
+				String secondBlock = currentBlock.substring(signIndex + 1, currentBlock.length());
+				constructedBlocks.set(j, firstBlock);
+				constructedBlocks.add(j + 1, "/");
+				constructedBlocks.add(j + 2, secondBlock);
+				
+				j += 3;
+			}
+		}
+		
+		for (int j = 0; j < constructedBlocks.size(); j++) {
+			String result;
+			
+			if(constructedBlocks.get(j).equals("/")) {
+				String firstBlock = constructedBlocks.get(j - 1);
+				String secondBlock = constructedBlocks.get(j + 1);
+				if(firstBlock.contains("(") && secondBlock.contains(")")) {
+					firstBlock = firstBlock.replace("(", "");
+					secondBlock = secondBlock.replace(")", "");
+					result = "\\left( \\frac{" + firstBlock + "}{" + secondBlock + "} \\right)";
+				}
+				else {
+					result = "\\frac{" + firstBlock + "}{" + secondBlock + "}";
+				}
+				
+				constructedBlocks.set(j - 1, result);
+				constructedBlocks.remove(j);
+				constructedBlocks.remove(j);
+				j++;
+			}
+		}
 		
 //		// Resets the indexes.
 //		int startIndex = 0;
