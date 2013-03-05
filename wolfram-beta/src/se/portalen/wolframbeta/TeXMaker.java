@@ -2,6 +2,8 @@ package se.portalen.wolframbeta;
 
 import java.util.ArrayList;
 
+import org.apache.catalina.tribes.transport.RxTaskPool;
+
 import sun.text.normalizer.CharTrie.FriendAgent;
 
 public class TeXMaker {
@@ -16,6 +18,7 @@ public class TeXMaker {
 	String newBlock;
 	// Doesn't include / because it requires some special formating.
 	private String[] signs = {"+", "-", "*",  "%", "(", ")"};
+	private String[] methods = {"sin", "cos", "tan", "squareroot"};
 	
 	public String parseTex(String input) {
 		
@@ -132,6 +135,56 @@ public class TeXMaker {
 			
 			int startIndex;
 			int endIndex;
+			
+			System.out.println(mathConstruction.get(i));
+			if(mathConstruction.get(i).equals("(")) {
+				endIndex = i - 1;
+				startIndex = endIndex;
+				newBlock = "";
+				
+				for (int j = endIndex; j >= 0; j--) {
+					if(containSigns(mathConstruction.get(i)) || j == 0) {
+						if(j != 0) {
+							startIndex = j + 1;
+						}
+						else {
+							startIndex = j;
+						}
+						
+						for (int j2 = startIndex; j2 < endIndex; j2++) {
+							newBlock += mathConstruction.get(j2);
+						}
+						break;
+					}
+				}
+				
+				startIndex = i;
+				endIndex = startIndex;
+				extraBrackets = 0;
+				
+				for (int j2 = i; j2 < mathConstruction.size(); j2++) {
+					if(mathConstruction.get(j2).equals("(")) {
+						extraBrackets++;
+					}
+					
+					if(mathConstruction.get(j2).equals(")") && extraBrackets != 0) {
+						extraBrackets--;
+					}
+					else if(mathConstruction.get(j2).equals(")") && extraBrackets == 0) {
+						endIndex = j2;
+						break;
+					}
+				}
+				
+				for (int j = startIndex; j < endIndex; j++) {
+					newBlock += mathConstruction.get(j);
+				}
+				
+				constructedBlocks.add(newBlock);
+				
+				i = endIndex + 1;
+			}
+			
 			if(containSigns(mathConstruction.get(i))) {
 				
 				endIndex = i - 1;
@@ -169,15 +222,16 @@ public class TeXMaker {
 						for (int j2 = 0; j2 < mathConstruction.size(); j2++) {
 							if(j2 == mathConstruction.size() - 1 && !containSigns(mathConstruction.get(j2))) {
 								startIndex = j;
+								break;
 							}
 							else {
 								startIndex = j + 1;
+								break;
 							}
 						}
 						for (int j2 = startIndex; j2 <= endIndex; j2++) {
 							newBlock += mathConstruction.get(j2);
 						}
-						System.out.println(newBlock);
 						constructedBlocks.add(newBlock);
 						break;
 					}
