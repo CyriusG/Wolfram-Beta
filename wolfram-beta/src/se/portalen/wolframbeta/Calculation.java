@@ -73,9 +73,8 @@ public class Calculation {
 		return (int)i;
 	}
 	
-	public static void main(String[]args){
+	public static double Splitter(String Test){
 	
-		String Test = "5*5*5-7/255+9-25*77/3";
 		double i = 0;
 		double[][] raw;
 		raw = new double[Test.length()][2];
@@ -102,7 +101,7 @@ public class Calculation {
 		
 		ArrayList<String> refined = new ArrayList<String>();
 		refined = Calculator(Test, raw, refined);
-		System.out.println(Final(refined));
+		return Final(refined);
 		
 		
 	}
@@ -166,7 +165,7 @@ public class Calculation {
 			i++;
 		}
 		
-		System.out.println(refined.get(0));
+		answer = Double.parseDouble(refined.get(0));
 		
 		return answer;
 	}
