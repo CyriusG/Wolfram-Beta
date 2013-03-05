@@ -1,12 +1,129 @@
 package se.portalen.wolframbeta;
 
+import java.awt.List;
+import java.util.ArrayList;
+
 public class Calculatus {
 
 	public static void main(String[]args){
-		System.out.println(parStructurer("((())))))((())((pi)))(((()*3)))))+3)+5)"));
+		System.out.println(parStructurer("(  5* 5 )( 5 *   5)"));
+	}
+	
+	
+	
+	public static String parMultiplyLogic(String input) {
+		
+		input = input.replace(" ", "");
+		input = input.replace("pi", "p");
+		input = input.replace("Pi", "p");
+		input = input.replace("pI", "p");
+		input = input.replace("PI", "p");
+		input = input.replace("e", "e");
+		input = input.replace("E", "e");
+		
+		ArrayList<Character> list = new ArrayList<Character>();
+		
+		for(char c : input.toCharArray()) {
+		    list.add(c);
+		}
+		
+		for(int i = 0; i < list.size(); i++){
+			if(String.valueOf(list.get(i)).matches("[a-z]")){
+				try {
+					if(String.valueOf(list.get(i-1)).matches("[0-9]") || String.valueOf(list.get(i-1)).matches("\\)")
+						|| String.valueOf(list.get(i-1)).matches("[a-z]")){
+							list.add(i, '*');
+					}
+					
+				} catch (IndexOutOfBoundsException e){
+				}
+			}
+		}
+		
+		for(int i = 0; i < list.size(); i++){
+			if(String.valueOf(list.get(i)).matches("[a-z]")){
+				try {
+					if(String.valueOf(list.get(i+1)).matches("[0-9]") || String.valueOf(list.get(i+1)).matches("\\(")
+						|| String.valueOf(list.get(i+1)).matches("[a-z]")){
+							list.add(i+1, '*');
+					}
+					
+				} catch (IndexOutOfBoundsException e){
+				}
+			}
+		}
+		
+		for(int i = 0; i < list.size(); i++){
+			if(String.valueOf(list.get(i)).matches("[0-9]")){
+				try {
+					if(String.valueOf(list.get(i-1)).matches("\\)")){
+							list.add(i, '*');
+					}
+					
+				} catch (IndexOutOfBoundsException e){
+				}
+			}
+		}
+		
+		for(int i = 0; i < list.size(); i++){
+			if(String.valueOf(list.get(i)).matches("[0-9]")){
+				try {
+					if(String.valueOf(list.get(i+1)).matches("\\(")){
+							list.add(i, '*');
+					}
+					
+				} catch (IndexOutOfBoundsException e){
+				}
+			}
+		}
+		
+		for(int i = 0; i < list.size(); i++){
+			if(String.valueOf(list.get(i)).matches("\\)")){
+				try {
+					if(String.valueOf(list.get(i+1)).matches("\\(")){
+							list.add(i+1, '*');
+					}
+					
+				} catch (IndexOutOfBoundsException e){
+				}
+			}
+		}
+		
+		String reString = "";
+		
+		for(char c : list){
+			reString = reString + c;
+		}
+		
+		return reString;
+	}
+	
+	public static String parCleaner(String input) {
+		char[] cArray = input.toCharArray();
+		int counter = 0;
+		String returnVal = "";
+		
+		for(int i = 0; i < cArray.length; i++){
+			if(((String.valueOf(input.charAt(i)).equals("(")) || (String.valueOf(input.charAt(i)).equals(")"))) && (counter==0)){
+				counter++;
+			} else if ((String.valueOf(input.charAt(i)).equals("(")) && (counter!=0)){
+				cArray[i] = ' ';
+			} else if ((String.valueOf(input.charAt(i)).equals(")")) && (counter!=0)){
+				cArray[i] = ' ';
+			} else {
+				counter = 0;
+			}
+		}
+		
+		for(char a : cArray) {
+		    returnVal = returnVal + a;
+		}
+		
+		return returnVal.replace(" ", "");
 	}
 	
 	public static String parSupplement(String input) {
+		
 		char[] cArray = input.toCharArray();
 		int length = cArray.length;
 		int leftCount = 0;
@@ -49,46 +166,23 @@ public class Calculatus {
 			for(char a : tempArray){
 				returnValue = returnValue + a;
 			}
+		} else {
+			returnValue = input;
 		}
 
 		return returnValue;
 	}
 	
-	public static String parCleaner(String input) {
-		char[] cArray = input.toCharArray();
-		int counter = 0;
-		String returnVal = "";
-		
-		for(int i = 0; i < cArray.length; i++){
-			if(((String.valueOf(input.charAt(i)).equals("(")) || (String.valueOf(input.charAt(i)).equals(")"))) && (counter==0)){
-				counter++;
-			} else if ((String.valueOf(input.charAt(i)).equals("(")) && (counter!=0)){
-				cArray[i] = ' ';
-			} else if ((String.valueOf(input.charAt(i)).equals(")")) && (counter!=0)){
-				cArray[i] = ' ';
-			} else {
-				counter = 0;
-			}
-		}
-		
-		for(char a : cArray) {
-		    returnVal = returnVal + a;
-		}
-		
-		return returnVal.replace(" ", "");
-	}
-	
 	public static String parStructurer(String input){
-		input = input.replace(" ", "");
-		input = input.replace("pi", Math.PI+"");
-		input = input.replace("Pi", Math.PI+"");
-		input = input.replace("pI", Math.PI+"");
-		input = input.replace("PI", Math.PI+"");
-		input = input.replace("e", Math.E+"");
-		input = input.replace("E", Math.E+"");
-		
+	
 		input = parCleaner(input);
 		input = parSupplement(input);
+		input = parMultiplyLogic(input);
+		
+		input = input.replace("p", Math.PI + "");
+		input = input.replace("e", Math.E + "");
+		
+		System.out.println(input);
 		
 		String trim = ""; 
 		
@@ -97,7 +191,9 @@ public class Calculatus {
 				for (int j = i; j >= 0; j--) {
 					if (String.valueOf(input.charAt(j)).equals("(")){
 						trim = input.substring(j+1, i);
+						System.out.println(input);
 						input = input.replace("("+trim+")", splitter(trim)+"");
+						System.out.println(input);
 						i = 0;
 						break;
 					} 
@@ -105,6 +201,45 @@ public class Calculatus {
 			}	
 		}
 	
+		return input;
+	}
+	
+	public static String cleaner(String input, boolean extra) {
+		
+		if(extra==true){
+			ArrayList<Character> list = new ArrayList<Character>();
+			
+			for(char c : input.toCharArray()) {
+			    list.add(c);
+			}
+			
+			for(int i = 0; i < list.size(); i++){
+				int size = list.size()-1;
+				
+				if(String.valueOf(list.get(1)).equals(")")){
+					list.remove(1);
+					i = 0;
+				}
+				
+				if(String.valueOf(list.get(size-1)).equals("(")){
+					list.remove(size-1);
+					i = 0;
+				}
+			}
+			
+			input = "";
+			for(char c : list) {
+			    input = input + c;
+			}
+			
+		} else {
+			input = input.replace(" ", "");
+			input = input.replace("p", Math.PI+"");
+			input = input.replace("e", Math.E+"");
+			
+			input = "(" + input + ")";
+		}
+		
 		return input;
 	}
 	
@@ -148,5 +283,78 @@ public class Calculatus {
 		}
 		
 		return returnValue;
+	}
+
+	public static String wutwut(String input) {
+		
+		input = parMultiplyLogic(input);
+		input = cleaner(input, false);
+		input = parSupplement(input);
+		
+		char[] inputArray = input.toCharArray();
+		String[] sortArray = new String[input.length()];
+		int counter = 0;
+		int lastIndex;
+		int firstIndex;
+		String magic = input;
+		System.out.println("First magic: " + magic);
+		
+		for(int a = 0; a < inputArray.length; a++){
+			if(String.valueOf(inputArray[a]).equals(")")){
+				lastIndex = a;
+				for(int b = lastIndex; b >= 0; b--){
+					if(String.valueOf(inputArray[b]).equals("(")){
+						firstIndex = b;
+						String temp = "";
+						for(int c = firstIndex; c <= lastIndex; c++){
+							temp = temp + inputArray[c];
+							inputArray[c] = ' ';
+						}
+						temp = temp.replace(")", "");
+						temp = temp.replace("(", "");
+						if(containsDigit(temp)==true){
+							sortArray[counter] = temp;
+							magic = magic.replace("("+temp+")", splitter(temp) + "");
+							counter++;
+							a = 0;
+						}
+						break;
+					}
+				}
+			}
+		}
+		
+		System.out.println("Second magic: " + magic);
+		
+		String retrievedLine = "";
+		String previousSum = "";
+		String totalSum = "";
+			
+		for(int i = 0; i < counter; i++){
+			retrievedLine = sortArray[i];
+			totalSum = splitter(previousSum + retrievedLine) + "";
+			previousSum = totalSum;
+		}
+			
+		if(totalSum.isEmpty()){
+			totalSum = splitter(cleaner(input, true).replace("(", "").replace(")", "")) + "";
+		}
+		
+		return totalSum;
+	}
+	
+	public static boolean containsDigit(String input) {  
+	    boolean containsDigit = false;
+
+	    if(input != null){
+	        for(char c : input.toCharArray()){
+	            if(Character.isDigit(c)){
+	                containsDigit = true;
+	                break;
+	            }
+	        }
+	    }
+
+	    return containsDigit;
 	}
 }
