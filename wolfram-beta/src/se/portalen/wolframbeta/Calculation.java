@@ -41,7 +41,7 @@ public class Calculation {
 		
 		while(input.length() > i){
 			
-			if (raw[(int) i][0]>0){
+			if (raw[(int) i][1] == 0){
 				refined.add( input.substring((int) i, calcBackwards(raw, i) ));
 				i = calcBackwards(raw, i)-1;
 				
@@ -74,7 +74,8 @@ public class Calculation {
 	}
 	
 	public static double calcSplitter(String input){
-	
+
+		System.out.println(input);
 		double i = 0;
 		double[][] raw;
 		raw = new double[input.length()][2];
