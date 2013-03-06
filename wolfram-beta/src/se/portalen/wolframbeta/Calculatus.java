@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Calculatus {
 
 	public static void main(String[]args){
-		System.out.println(parStructurer("(  5* 5 )( 5 *   5)"));
+		System.out.println(parStructurer("(5*5(5+5())*3"));
 	}
 	
 	
@@ -69,7 +69,7 @@ public class Calculatus {
 			if(String.valueOf(list.get(i)).matches("[0-9]")){
 				try {
 					if(String.valueOf(list.get(i+1)).matches("\\(")){
-							list.add(i, '*');
+							list.add(i+1, '*');
 					}
 					
 				} catch (IndexOutOfBoundsException e){
@@ -99,26 +99,36 @@ public class Calculatus {
 	}
 	
 	public static String parCleaner(String input) {
+		input = input.replace(" ", "");
 		char[] cArray = input.toCharArray();
-		int counter = 0;
+		boolean counter = false;
 		String returnVal = "";
 		
 		for(int i = 0; i < cArray.length; i++){
-			if(((String.valueOf(input.charAt(i)).equals("(")) || (String.valueOf(input.charAt(i)).equals(")"))) && (counter==0)){
-				counter++;
-			} else if ((String.valueOf(input.charAt(i)).equals("(")) && (counter!=0)){
+			if(String.valueOf(input.charAt(i)).equals("(")){
+				if(String.valueOf(input.charAt(i+1)).equals(")")){
+					cArray[i] = ' ';
+					cArray[i+1] = ' ';
+				}
+			}
+		}
+		
+		for(int i = 0; i < cArray.length; i++){
+			if(((String.valueOf(input.charAt(i)).equals("\\(")) || (String.valueOf(input.charAt(i)).equals("\\)"))) && (counter==false)){
+				counter=true;
+			} else if ((String.valueOf(input.charAt(i)).equals("\\(")) && (counter==true)){
 				cArray[i] = ' ';
-			} else if ((String.valueOf(input.charAt(i)).equals(")")) && (counter!=0)){
+			} else if ((String.valueOf(input.charAt(i)).equals("\\)")) && (counter==true)){
 				cArray[i] = ' ';
 			} else {
-				counter = 0;
+				counter=false;
 			}
 		}
 		
 		for(char a : cArray) {
 		    returnVal = returnVal + a;
 		}
-		
+
 		return returnVal.replace(" ", "");
 	}
 	
@@ -182,8 +192,6 @@ public class Calculatus {
 		input = input.replace("p", Math.PI + "");
 		input = input.replace("e", Math.E + "");
 		
-		System.out.println(input);
-		
 		String trim = ""; 
 		
 		for (int i = 0; i < input.length(); i++) {	
@@ -191,9 +199,7 @@ public class Calculatus {
 				for (int j = i; j >= 0; j--) {
 					if (String.valueOf(input.charAt(j)).equals("(")){
 						trim = input.substring(j+1, i);
-						System.out.println(input);
 						input = input.replace("("+trim+")", splitter(trim)+"");
-						System.out.println(input);
 						i = 0;
 						break;
 					} 
