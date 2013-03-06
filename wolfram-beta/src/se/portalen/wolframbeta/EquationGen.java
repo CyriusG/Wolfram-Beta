@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServlet;
 import javax.swing.JLabel;
 
 public class EquationGen {

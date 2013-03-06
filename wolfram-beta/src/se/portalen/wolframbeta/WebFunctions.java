@@ -53,4 +53,10 @@ public class WebFunctions {
 		
 		eqGen.generateEquation(texMaker.parseTex(equation), name, path);
 	}
+	
+	public static String webCalculate(String input) {
+		
+		
+		return "0";
+	}
 }

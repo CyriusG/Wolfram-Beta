@@ -3,16 +3,22 @@
 <%@ include file="static/templates/header.jsp" %>	
 
 <% 
+	// Save the user input in a String.
 	String equation = request.getParameter("mathInput");
-
-	String relativeWebPath = "temp/equations/";
-	String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath);
-	String path =  absoluteDiskPath + "/"; 
-	String name = WebFunctions.generateEqName(equation);
 	
-	//if(WebFunctions.checkIfEqExists(name) == 0) {
+	// Where should the images for the equations be stored?
+	String relativeWebPath = "temp/equations/";
+	// Get the absolute path of that directory on the server.
+	String path = getServletContext().getRealPath(relativeWebPath) + "/";
+	// Tell the server to generate the name for the current equation.
+	String name = WebFunctions.generateEqName(equation);
+	// Tell the server to calculate the user input and return the result into a String.
+	String result = WebFunctions.webCalculate(equation);
+	
+	// If there's not equation with the same name already generated, generate a new image for it.
+	if(WebFunctions.checkIfEqExists(name) == 0) {
 		WebFunctions.generateEqImage(equation, name, path);
-	//}
+	}
 %>	
 
 	<div id="smallInputContainer">
@@ -35,20 +41,10 @@
 		</div>	
 		
 		<div class="answer">
-			<h3>Output:</h3>
-			<p class="output">82</p>
+			<h3>Result:</h3>
+			<p class="output"><% out.print(result); %></p>
 		</div>
 		
-		<div class="answer">
-			<h3>Properties:</h3>
-			<ul>
-				<% 
-					for (int i = 0; i < TalkSrv.constructTest().length; i++) {
-						out.print("<div class='answerItemContainer'><li>" + TalkSrv.constructTest()[i] + "</li></div>");
-					}
-				%>
-			</ul>
-		</div>
 	</div>
 	
 <%@ include file="static/templates/footer.jsp" %>
