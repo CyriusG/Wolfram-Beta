@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Calculation {
 	
-	public static double Analyzer (char temp){
+	public static double calcAnalyzer (char temp){
 		double x = 0;
 		
 		if (temp == '/'){
@@ -35,19 +35,19 @@ public class Calculation {
 
 	}
 	
-	public static ArrayList<String> Calculator(String Test,double raw[][], ArrayList<String> refined){
+	public static ArrayList<String> calcCalculator(String input,double raw[][], ArrayList<String> refined){
 		double i = 0;
 
 		
-		while(Test.length() > i){
+		while(input.length() > i){
 			
 			if (raw[(int) i][0]>0){
-				refined.add( Test.substring((int) i, Backwards(raw, i) ));
-				i = Backwards(raw, i)-1;
+				refined.add( input.substring((int) i, calcBackwards(raw, i) ));
+				i = calcBackwards(raw, i)-1;
 				
 			}
 			if (raw[(int) i][1] > 0 && raw[(int) i][1] < 5){
-				refined.add("" +  Test.charAt((int) i));
+				refined.add("" +  input.charAt((int) i));
 			}
 			i++;
 		}		
@@ -55,7 +55,7 @@ public class Calculation {
 		return refined;
 	}
 	
-	public static int Backwards(double raw[][], double i){
+	public static int calcBackwards(double raw[][], double i){
 		
 		boolean fixed = false;
 		
@@ -73,17 +73,17 @@ public class Calculation {
 		return (int)i;
 	}
 	
-	public static double Splitter(String Test){
+	public static double calcSplitter(String input){
 	
 		double i = 0;
 		double[][] raw;
-		raw = new double[Test.length()][2];
+		raw = new double[input.length()][2];
 		char temp;
 		
 		
-		while (i < Test.length()){
+		while (i < input.length()){
 			
-			temp = Test.charAt((int) i);
+			temp = input.charAt((int) i);
 			
 			if (Character.isDigit(temp) == true){
 				
@@ -92,7 +92,7 @@ public class Calculation {
 			}
 			
 			else {
-				raw[(int)i][1] = Analyzer(temp);
+				raw[(int)i][1] = calcAnalyzer(temp);
 				raw[(int)i][0] = 0;
 			}
 			i++;
@@ -100,13 +100,13 @@ public class Calculation {
 		
 		
 		ArrayList<String> refined = new ArrayList<String>();
-		refined = Calculator(Test, raw, refined);
-		return Final(refined);
+		refined = calcCalculator(input, raw, refined);
+		return calcFinal(refined);
 		
 		
 	}
 	
-	public static double Final (ArrayList<String> refined){
+	public static double calcFinal (ArrayList<String> refined){
 		double answer = 0;
 		int i = 0;
 		int x = 0;
