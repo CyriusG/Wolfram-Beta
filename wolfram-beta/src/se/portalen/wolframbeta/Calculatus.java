@@ -34,7 +34,6 @@ public class Calculatus {
 						|| String.valueOf(list.get(i-1)).matches("[a-z]")){
 							list.add(i, '*');
 							i = 0;
-							System.out.println("ett");
 					}
 					
 				} catch (IndexOutOfBoundsException e){
@@ -49,7 +48,6 @@ public class Calculatus {
 						|| String.valueOf(list.get(i+1)).matches("[a-z]")){
 							list.add(i+1, '*');
 							i = 0;
-							System.out.println("2");
 					}
 					
 				} catch (IndexOutOfBoundsException e){
@@ -63,7 +61,6 @@ public class Calculatus {
 					if(String.valueOf(list.get(i-1)).matches("\\)")){
 							list.add(i, '*');
 							i = 0;
-							System.out.println("3");
 					}
 					
 				} catch (IndexOutOfBoundsException e){
