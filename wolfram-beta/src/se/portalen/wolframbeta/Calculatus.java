@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Calculatus {
 
 	public static void main(String[]args){
-		System.out.println(parStructurer("(  5* 5 )( 5 *   5)"));
+		System.out.println(parStructurer("5+5()"));
 	}
 	
 	
@@ -26,6 +26,7 @@ public class Calculatus {
 		for(char c : input.toCharArray()) {
 		    list.add(c);
 		}
+		System.out.println("hejhejhej");
 		
 		for(int i = 0; i < list.size(); i++){
 			if(String.valueOf(list.get(i)).matches("[a-z]")){
@@ -33,6 +34,8 @@ public class Calculatus {
 					if(String.valueOf(list.get(i-1)).matches("[0-9]") || String.valueOf(list.get(i-1)).matches("\\)")
 						|| String.valueOf(list.get(i-1)).matches("[a-z]")){
 							list.add(i, '*');
+							i = 0;
+							System.out.println("ett");
 					}
 					
 				} catch (IndexOutOfBoundsException e){
@@ -46,6 +49,8 @@ public class Calculatus {
 					if(String.valueOf(list.get(i+1)).matches("[0-9]") || String.valueOf(list.get(i+1)).matches("\\(")
 						|| String.valueOf(list.get(i+1)).matches("[a-z]")){
 							list.add(i+1, '*');
+							i = 0;
+							System.out.println("2");
 					}
 					
 				} catch (IndexOutOfBoundsException e){
@@ -58,6 +63,8 @@ public class Calculatus {
 				try {
 					if(String.valueOf(list.get(i-1)).matches("\\)")){
 							list.add(i, '*');
+							i = 0;
+							System.out.println("3");
 					}
 					
 				} catch (IndexOutOfBoundsException e){
@@ -69,7 +76,10 @@ public class Calculatus {
 			if(String.valueOf(list.get(i)).matches("[0-9]")){
 				try {
 					if(String.valueOf(list.get(i+1)).matches("\\(")){
-							list.add(i, '*');
+							list.add(i+1, '*');
+							i = 0;
+							System.out.println("4");
+							System.out.println(list.size());
 					}
 					
 				} catch (IndexOutOfBoundsException e){
@@ -82,6 +92,8 @@ public class Calculatus {
 				try {
 					if(String.valueOf(list.get(i+1)).matches("\\(")){
 							list.add(i+1, '*');
+							i = 0;
+							System.out.println("5");
 					}
 					
 				} catch (IndexOutOfBoundsException e){
@@ -174,10 +186,16 @@ public class Calculatus {
 	}
 	
 	public static String parStructurer(String input){
+		input = "(" + input + ")";
 	
+		System.out.println("hej");
 		input = parCleaner(input);
+		System.out.println("nej");
 		input = parSupplement(input);
+		System.out.println("dej");
 		input = parMultiplyLogic(input);
+		
+		System.out.println(input);
 		
 		input = input.replace("p", Math.PI + "");
 		input = input.replace("e", Math.E + "");
@@ -192,7 +210,7 @@ public class Calculatus {
 					if (String.valueOf(input.charAt(j)).equals("(")){
 						trim = input.substring(j+1, i);
 						System.out.println(input);
-						input = input.replace("("+trim+")", splitter(trim)+"");
+						input = input.replace("("+trim+")", Calculation.calcSplitter(trim)+"");
 						System.out.println(input);
 						i = 0;
 						break;
@@ -314,7 +332,7 @@ public class Calculatus {
 						temp = temp.replace("(", "");
 						if(containsDigit(temp)==true){
 							sortArray[counter] = temp;
-							magic = magic.replace("("+temp+")", splitter(temp) + "");
+							magic = magic.replace("("+temp+")", Calculation.calcSplitter(temp) + "");
 							counter++;
 							a = 0;
 						}
