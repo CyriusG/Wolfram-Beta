@@ -55,8 +55,6 @@ public class WebFunctions {
 	}
 	
 	public static String webCalculate(String input) {
-		
-		
-		return "0";
+		return Calculatus.parStructurer(input);
 	}
 }
