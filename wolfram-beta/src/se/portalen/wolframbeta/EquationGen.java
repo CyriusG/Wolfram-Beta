@@ -52,6 +52,12 @@ public class EquationGen {
 	    cleanFolder(file, path);
 	}
 	
+	/**
+	 * If all the files in the equation folder are larger than 500MB clean the entire folder.
+	 * Also keep the file that the user just generated.
+	 * @param keepFile
+	 * @param path
+	 */
 	private void cleanFolder(File keepFile, String path) {
 		File directory = new File(path).getAbsoluteFile();
 		
@@ -66,6 +72,11 @@ public class EquationGen {
 		}
 	}
 	
+	/**
+	 * Get the size of the files in the equation directory.
+	 * @param directory
+	 * @return
+	 */
 	private long folderSize(File directory) {
 		long length = 0;
 		
