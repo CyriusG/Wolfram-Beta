@@ -3,17 +3,19 @@ package se.portalen.wolframbeta;
 import java.util.ArrayList;
 
 public class Calculatus {
-
-	public static void main(String[]args){
-		System.out.println(parStructurer("(5*5(5+5())*3"));
-		System.out.println(parStructurer("5+5()"));
-	}
 	
-	
-	
-	public static String parMultiplyLogic(String input) {
+	/**
+	 * Denna metod innehåller logik som sätter in gångertecken 
+	 * det behövs i inputen. I och med den grundläggande matematiska
+	 * regeln att t.ex. en siffra som står jämte en variabel ska gångras med denna.
+	 * 
+	 * Returnerar en sträng som är i princip likadan som den som skickades in, fast
+	 * med instatta gångertecken där det behövs
+	 */
+	private static String parMultiplyLogic(String input) {
 		
-		input = input.replace(" ", "");
+		//Här sker simpel ersättning av variabler till enklare
+		//att arbeta med självständiga bokstäver.
 		input = input.replace("pi", "p");
 		input = input.replace("Pi", "p");
 		input = input.replace("pI", "p");
@@ -21,12 +23,18 @@ public class Calculatus {
 		input = input.replace("e", "e");
 		input = input.replace("E", "e");
 		
+		//Listan som kommer att hålla våran input i Characterformat
 		ArrayList<Character> list = new ArrayList<Character>();
 		
+		//Här omvandlas strängen input till en char array och sedan 
+		//läggs varje char in i listan på enskilda index.
 		for(char c : input.toCharArray()) {
 		    list.add(c);
 		}
 		
+		//Loopen letar efter konstanter (i detta fall kan den dock bara finna e eller p)
+		//på varje index. Ifall den väl hittar en konstant, kollar just denna loopen ifall det finns
+		//något bakom konstanten som den kan multipliceras med.
 		for(int i = 0; i < list.size(); i++){
 			if(String.valueOf(list.get(i)).matches("[a-z]")){
 				try {
@@ -41,6 +49,7 @@ public class Calculatus {
 			}
 		}
 		
+		//Samma som ovan fast kollar framför konstanten istället.
 		for(int i = 0; i < list.size(); i++){
 			if(String.valueOf(list.get(i)).matches("[a-z]")){
 				try {
@@ -55,6 +64,9 @@ public class Calculatus {
 			}
 		}
 		
+		//Denna loopen letar efter siffror som ligger intill parenteser. Just denna kommer att
+		//titta på indexen bakom indexen den hittar siffran på. Ifall det nu finns en parentes vänd
+		//åt rätt håll där så sätts ett mulitplikationstecken in.
 		for(int i = 0; i < list.size(); i++){
 			if(String.valueOf(list.get(i)).matches("[0-9]")){
 				try {
@@ -68,6 +80,7 @@ public class Calculatus {
 			}
 		}
 		
+		//Samma som ovan, fast kollar åt andra hållet. 
 		for(int i = 0; i < list.size(); i++){
 			if(String.valueOf(list.get(i)).matches("[0-9]")){
 				try {
@@ -81,6 +94,8 @@ public class Calculatus {
 			}
 		}
 		
+		//Kollar efter ifall två parenteser som ligger jämte varandra är vända åt olika håll
+		//, ifall så, sätts det in ett multiplikationstecken mellan dem.
 		for(int i = 0; i < list.size(); i++){
 			if(String.valueOf(list.get(i)).matches("\\)")){
 				try {
@@ -96,6 +111,7 @@ public class Calculatus {
 		
 		String reString = "";
 		
+		//Här fylls strängen med varje char från den nu-modifierade listan. 
 		for(char c : list){
 			reString = reString + c;
 		}
@@ -103,12 +119,18 @@ public class Calculatus {
 		return reString;
 	}
 	
-	public static String parCleaner(String input) {
-		input = input.replace(" ", "");
-		char[] cArray = input.toCharArray();
-		boolean counter = false;
-		String returnVal = "";
+	/**
+	 * Denna metoden tar bort oönskade parenteser. 
+	 */
+	private static String parCleaner(String input) {
 		
+		//Här tas onödiga mellanslag bort från våran input.
+		//Därefter gör vi en char array som håller varje char i strängen.
+		input = input.replace(" ", "");
+		boolean counter = false;
+		char[] cArray = input.toCharArray();
+		
+		//Denna loop letar efter tomma parenteser och tar bort dessa.
 		for(int i = 0; i < cArray.length; i++){
 			if(String.valueOf(input.charAt(i)).equals("(")){
 				if(String.valueOf(input.charAt(i+1)).equals(")")){
@@ -118,6 +140,10 @@ public class Calculatus {
 			}
 		}
 		
+		//Den här loopen tittar på varje index av våran array. Ifall den hittar en parentes, så en if-sats
+		//kolla på ifall counter är falsk eller inte. Om den är falsk, gör vi den till true, för att signalera att ytterligare
+		//parenteser efter denna är oönskade. Så länge som counter förblir true kommer parenteser på indexen som tittas
+		//på att tas bort. Om counter är true och det inte finns en parentes på indexen, gör vi counter till false.
 		for(int i = 0; i < cArray.length; i++){
 			if(((String.valueOf(input.charAt(i)).equals("\\(")) || (String.valueOf(input.charAt(i)).equals("\\)"))) && (counter==false)){
 				counter=true;
@@ -130,21 +156,31 @@ public class Calculatus {
 			}
 		}
 		
+		String reString = "";
+		
+		//Sen tar vi alla chars i arrayen och sparar dem i våran retursträng.
 		for(char a : cArray) {
-		    returnVal = returnVal + a;
+		    reString = reString + a;
 		}
 
-		return returnVal.replace(" ", "");
+		return reString.replace(" ", "");
 	}
 	
-	public static String parSupplement(String input) {
+	/**
+	 * Denna metod är ett supplement till parCleaner. I och med hur parCleaner fungerar
+	 * så måste det läggas till parenteser på någon av sidorna så att parentesbalansen återställs.
+	 */
+	private static String parSupplement(String input) {
 		
+		//Initialisering av variabler.
 		char[] cArray = input.toCharArray();
 		int length = cArray.length;
 		int leftCount = 0;
 		int rightCount = 0;
-		String returnValue = "";
+		String reString = "";
 		
+		//Simpel loop som räknar alla parenteser och sparar vardera mängd
+		//av dem i varsin integer.
 		for(int i = 0; i < length; i++){
 			if(String.valueOf(input.charAt(i)).equals("(")){
 				leftCount++;
@@ -155,6 +191,9 @@ public class Calculatus {
 		
 		int difference = leftCount-rightCount;
 		
+		//Sedan tar denna if-sats en titt på skillnaden mellan vänster och högerparenteser.
+		//Ifall det finns mer av någon av dem, sätts nödvändiga parenteser till för att 
+		//återskapa balansen. Ifall de redan är i balans görs inget.
 		if(difference>0){
 			char[] tempArray = new char[length+difference];
 			
@@ -165,7 +204,7 @@ public class Calculatus {
 				tempArray[length+j] = ')';
 			}
 			for(char a : tempArray){
-				returnValue = returnValue + a;
+				reString = reString + a;
 			}
 			
 		} else if(difference<0){
@@ -179,194 +218,61 @@ public class Calculatus {
 				tempArray[difference+j] = cArray[j];
 			}
 			for(char a : tempArray){
-				returnValue = returnValue + a;
+				reString = reString + a;
 			}
 		} else {
-			returnValue = input;
+			reString = input;
 		}
 
-		return returnValue;
+		return reString;
 	}
 	
+	/**
+	 * Denna metod tar parentes för parentes, efter att den råa inputen har processerats via
+	 * andra metoder, och skickar in den högsta prioriterings parentesen först för att räknas ut,
+	 * sen den näst högsta prioriteringsparentesen etc.
+	 */
 	public static String parStructurer(String input){
 		
-		input = parCleaner(input);
-		input = parSupplement(input);
-		input = parMultiplyLogic(input);
-		input = "(" + input + ")";
-		
-		input = input.replace("p", Math.PI + "");
-		input = input.replace("e", Math.E + "");
-		
-		String trim = ""; 
-		
-		for (int i = 0; i < input.length(); i++) {	
-			if (String.valueOf(input.charAt(i)).equals(")")){
-				for (int j = i; j >= 0; j--) {
-					if (String.valueOf(input.charAt(j)).equals("(")){
-						trim = input.substring(j+1, i);
-						input = input.replace("("+trim+")", Calculation.calcSplitter(trim)+"");
-						i = 0;
-						break;
-					} 
-				}
-			}	
-		}
-	
-		return input;
-	}
-	
-	public static String cleaner(String input, boolean extra) {
-		
-		if(extra==true){
-			ArrayList<Character> list = new ArrayList<Character>();
-			
-			for(char c : input.toCharArray()) {
-			    list.add(c);
-			}
-			
-			for(int i = 0; i < list.size(); i++){
-				int size = list.size()-1;
-				
-				if(String.valueOf(list.get(1)).equals(")")){
-					list.remove(1);
-					i = 0;
-				}
-				
-				if(String.valueOf(list.get(size-1)).equals("(")){
-					list.remove(size-1);
-					i = 0;
-				}
-			}
-			
-			input = "";
-			for(char c : list) {
-			    input = input + c;
-			}
-			
-		} else {
-			input = input.replace(" ", "");
-			input = input.replace("p", Math.PI+"");
-			input = input.replace("e", Math.E+"");
-			
+		try {
+			input = parCleaner(input);
+			input = parSupplement(input);
+			input = parMultiplyLogic(input);
 			input = "(" + input + ")";
-		}
-		
-		return input;
-	}
-	
-	public static double splitter(String parameter){
-		
-		double returnValue = 0;
-		
-		String[] tehArray = new String[0];
-		
-		
-		for (int i = 0; i < parameter.length(); i++) {	
 			
-			if(String.valueOf(parameter.charAt(i)).equals("*")){
-				tehArray = parameter.split("\\*");
-				returnValue = Double.parseDouble(tehArray[0]) * Double.parseDouble(tehArray[1]);
-				
-			}
+			//Här sätts det in ordentliga värden på konstanterna.
+			input = input.replace("p", Math.PI + "");
+			input = input.replace("e", Math.E + "");
 			
-			if(String.valueOf(parameter.charAt(i)).equals("/")){
-				tehArray = parameter.split("\\/");
-				returnValue = Double.parseDouble(tehArray[0]) / Double.parseDouble(tehArray[1]);
-				
-			} 
+			String trim = ""; 
 			
-			if(String.valueOf(parameter.charAt(i)).equals("+")){
-				tehArray = parameter.split("\\+");
-				returnValue = Double.parseDouble(tehArray[0]) + Double.parseDouble(tehArray[1]);;
-			
-			}
-			
-			if(String.valueOf(parameter.charAt(i)).equals("-")){
-				tehArray = parameter.split("\\-");
-				returnValue = Double.parseDouble(tehArray[0]) + Double.parseDouble(tehArray[1]);
-				
-			}
-			
-		}
-		
-		if(returnValue==0.0) {
-			returnValue = Double.parseDouble(parameter);
-		}
-		
-		return returnValue;
-	}
-
-	public static String wutwut(String input) {
-		
-		input = parMultiplyLogic(input);
-		input = cleaner(input, false);
-		input = parSupplement(input);
-		
-		char[] inputArray = input.toCharArray();
-		String[] sortArray = new String[input.length()];
-		int counter = 0;
-		int lastIndex;
-		int firstIndex;
-		String magic = input;
-		System.out.println("First magic: " + magic);
-		
-		for(int a = 0; a < inputArray.length; a++){
-			if(String.valueOf(inputArray[a]).equals(")")){
-				lastIndex = a;
-				for(int b = lastIndex; b >= 0; b--){
-					if(String.valueOf(inputArray[b]).equals("(")){
-						firstIndex = b;
-						String temp = "";
-						for(int c = firstIndex; c <= lastIndex; c++){
-							temp = temp + inputArray[c];
-							inputArray[c] = ' ';
-						}
-						temp = temp.replace(")", "");
-						temp = temp.replace("(", "");
-						if(containsDigit(temp)==true){
-							sortArray[counter] = temp;
-							magic = magic.replace("("+temp+")", Calculation.calcSplitter(temp) + "");
-							counter++;
-							a = 0;
-						}
-						break;
+			//Letar efter den första slutparentesen i strängen den går igenom. När den hittar den
+			//så går den baklänges tills den hittar närmsta begynnelseparentes.
+			//Sedan skapas en substräng av parentesens innehåll som skickas in till uträkningsmetoden.
+			//Slutligen byts parenteserna och dess innehåll ut mot det uträknade värdet, och loopen tittar vidare.
+			for (int i = 0; i < input.length(); i++) {	
+				if (String.valueOf(input.charAt(i)).equals(")")){
+					for (int j = i; j >= 0; j--) {
+						if (String.valueOf(input.charAt(j)).equals("(")){
+							trim = input.substring(j+1, i);
+							input = input.replace("("+trim+")", Calculation.calcSplitter(trim)+"");
+							i = 0;
+							break;
+						} 
 					}
-				}
+				}	
 			}
-		}
 		
-		System.out.println("Second magic: " + magic);
-		
-		String retrievedLine = "";
-		String previousSum = "";
-		String totalSum = "";
+			return input;
 			
-		for(int i = 0; i < counter; i++){
-			retrievedLine = sortArray[i];
-			totalSum = splitter(previousSum + retrievedLine) + "";
-			previousSum = totalSum;
+			//Några simpla catches för eventuella fel som kan upptstå ifall
+			//användaren skickar in bedrövliga inputs.
+		} catch (NullPointerException e) {
+			return "Bad input";
+		} catch (NumberFormatException e) {
+			return "Bad input";
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return "Bad input";
 		}
-			
-		if(totalSum.isEmpty()){
-			totalSum = splitter(cleaner(input, true).replace("(", "").replace(")", "")) + "";
-		}
-		
-		return totalSum;
-	}
-	
-	public static boolean containsDigit(String input) {  
-	    boolean containsDigit = false;
-
-	    if(input != null){
-	        for(char c : input.toCharArray()){
-	            if(Character.isDigit(c)){
-	                containsDigit = true;
-	                break;
-	            }
-	        }
-	    }
-
-	    return containsDigit;
 	}
 }
